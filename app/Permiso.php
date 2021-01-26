@@ -1,0 +1,12 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Permiso extends Model
+{
+    protected $fillable = [
+        'empleado', 'area', 'fecha_permiso', 'fecha_permiso_final', 'turno', 'sustituto', 'tipo_permiso', 'aprobado', 'motivo'
+    ];
+}
