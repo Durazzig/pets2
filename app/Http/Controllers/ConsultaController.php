@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Consulta;
 use Carbon\Carbon;
 use App\User;
-use App\empleado;
+use Illuminate\Support\Facades\Auth;
+use App\Role;
+
 
 class ConsultaController extends Controller
 {
@@ -89,14 +91,28 @@ class ConsultaController extends Controller
      */
     public function edit($id)
     {
+        $role_admin = Role::where('name', 'admin')->first();  
+        $userId = Auth::user()->id;
+        $user = User::where('id',$userId)->get();
         $consulta = Consulta::findOrFail($id);
-        if($consulta->aprobado == 'nochecked'){
+        if($consulta->finalizado == 0){
             $hora = Carbon::now()->timezone('America/Mexico_City')->toTimeString();
             $consulta->hora_atencion = $hora;
             $consulta->save();
+            $medicos = User::where('work_area','Hospital')->get();
+            return view('consultas.aprove',compact('consulta'))->with(compact('medicos'));
+        }else{
+            foreach($user[0]->roles as $role){
+                if($role->name == $role_admin->name)
+                {
+                    $medicos = User::where('work_area','Hospital')->get();
+                    return view('consultas.aprove',compact('consulta'))->with(compact('medicos'));
+                }else{
+                    return view('errors.not_authorized_action');
+                }
+            }
         }
-        $medicos = User::where('work_area','Hospital')->get();
-        return view('consultas.aprove',compact('consulta'))->with(compact('medicos'));
+       
     }
 
     /**
@@ -108,11 +124,35 @@ class ConsultaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //dd($request);
-        $consulta = $request->except('_token');
-        Consulta::where('id','=',$id)->update($consulta);
-        $consultas = Consulta::paginate(5);
-        return view('consultas.index',compact('consultas'));
+        switch ($request->input('action')) {
+            case 'finalizar':
+                $hora = Carbon::now()->timezone('America/Mexico_City')->toTimeString();
+                $consulta = Consulta::find($id);
+                $consulta->finalizado=1;
+                $consulta->hora_termino = $hora;
+                $consulta->medico_id = $request->input('medico_id');
+                $consulta->propietario = $request->input('propietario');  
+                $consulta->mascota = $request->input('mascota'); 
+                $consulta->peso = $request->input('peso'); 
+                $consulta->edad = $request->input('edad'); 
+                $consulta->raza = $request->input('raza'); 
+                $consulta->servicio = $request->input('servicio'); 
+                $consulta->save();
+                //$consulta = $request->except('_token');
+                //Consulta::where('id','=',$id)->update($consulta);
+                $medicos = User::where('work_area','Hospital')->get();
+                $consultas = Consulta::paginate(5);
+                return view('consultas.index',compact('consultas'))->with(compact('medicos'));
+                break;
+            
+            case 'guardar':
+                $medicos = User::where('work_area','Hospital')->get();
+                $consulta = $request->only('medico_id','propietario','raza','edad','peso','mascota','servicio');
+                Consulta::where('id','=',$id)->update($consulta);
+                $consultas = Consulta::paginate(5);
+                return view('consultas.index',compact('consultas'))->with(compact('medicos'));
+                break;
+            }
     }
 
     /**
@@ -125,39 +165,12 @@ class ConsultaController extends Controller
     {
         $consulta = Consulta::find($id);
         $consulta->delete();
-        $medicos = empleado::where('area','Hospital')->get();
+        $medicos = User::where('work_area','Hospital')->get();
         return redirect()->route('consultas.index');
     }
 
     public function filterDate(Request $request)
     {
-        $fecha_inicial = $request -> input('desde');
-        $fecha_final = $request -> input('hasta');
-        $selectValue = $request -> input('medico_id');
-        if($selectValue != "todos")
-        {
-            $medico = $request -> input('medico_id');
-            $medicos = empleado::where('area','hospital')->get();
-            $consultas = Consulta::where('medico_id',$medico)->whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->paginate(10);
-            return view('consultas.index', [
-                'consultas' => $consultas,
-                'medicos' => $medicos,
-            ]);
-        }
-        else
-        {
-            $medicos = empleado::all();
-            $consultas = Bill::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->paginate(10);
-            return view('consultas.index', [
-                'consultas' => $consultas,
-                'medicos' => $medicos,
-            ]);
-        }$request->validate([
-            'desde' => 'required',
-            'hasta' => 'required',
-            'medico_id' => 'required',
-            
-        ]);
         $fecha_inicial = $request -> input('desde');
         $fecha_final = $request -> input('hasta');
         $selectValue = $request -> input('medico_id');
@@ -190,17 +203,35 @@ class ConsultaController extends Controller
                 $lista = array();
                 $medicos = Consulta::distinct('medico_id')->get('medico_id');
                 foreach($medicos as $medico){
-                    $noConsultas = Consulta::where('medico_id',$medico->medico_id)->count('medico_id');
+                    $noConsultas = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('medico_id',$medico->medico_id)->count('medico_id');
                     $medicosName = User::where('id',$medico->medico_id)->get('name');
-                    $maxServices = Consulta::where('medico_id',$medico->medico_id)->min('servicio');
-                    $minServices = Consulta::where('medico_id',$medico->medico_id)->max('servicio');
-                    $lista[] = $noConsultas;
-                    $lista[] = $maxServices;
-                    $lista[] = $minServices;
+                    $maxServices = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('medico_id',$medico->medico_id)->min('servicio');
+                    $minServices = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('medico_id',$medico->medico_id)->max('servicio');
                     foreach($medicosName as $medicoName){
                         $lista[] = $medicoName->name;
                     }
+                    $lista[] = $noConsultas;
+                    $lista[] = $maxServices;
+                    $lista[] = $minServices;
+                    
                 }
+                $wordTest = new \PhpOffice\PhpWord\PhpWord();
+                $newSection = $wordTest->addSection();
+                //for($i=o; i<$lista.lenght; i+=4){
+
+                //}
+                $part1 = "Nombre del médico" . $lista[0];
+                $mytime = Carbon::now()->timezone('America/Mexico_City')->toDateString();
+                $fech = "                                                                                     Tuxtla Gutiérrez, Chis. "; 
+                $newSection->addText($part1);
+                $objectWriter = \PhpOffice\PhpWord\IOFactory::createWriter($wordTest, "Word2007");
+                try{
+                    $objectWriter->save(storage_path("Reporte" . $mytime .".docx"));
+                }catch(Exception $e){
+        
+                }
+                return response()->download(storage_path("Reporte" . $mytime . ".docx"));
+                //dd($lista);
             }else{
                 echo 'Hola';
 

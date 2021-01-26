@@ -13,7 +13,7 @@
         <tbody>
             @foreach($consultas as $consulta)
                 <tr>
-                    <td><h1>{{$consulta->medico->empleado}}</h1></td>
+                    <td><h1>{{$consulta->medico->name}}</h1></td>
                     <td><h1>{{$consulta->mascota}}</h1></td>
                     <td><h1>{{$consulta->propietario}}</h1></td>
                     <td><h1>{{$consulta->hora_llegada}}</h1></td>

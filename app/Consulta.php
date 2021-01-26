@@ -19,6 +19,7 @@ class Consulta extends Model
         'edad',
         'raza',
         'servicio',
+        'finalizado',
     ];
 
     public function medico()

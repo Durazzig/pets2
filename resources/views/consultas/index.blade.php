@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="row">
-    <div class="col-md-10 mx-auto">
+    <div class="col-md-12 mx-auto">
         <div class="card">
             <div class="card-header">
                 <div class="row">
@@ -49,7 +49,7 @@
             </div>
             <div class="card-body">
                 @if(Auth::user())
-                <table class="table table-hover table-responsive-lg fixed-table-body">
+                <table class="table table-hover table-responsive-xl fixed-table-body">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -64,8 +64,8 @@
                             <th scope="col">{{ __('Edad') }}</th>
                             <th scope="col">{{ __('Raza') }}</th>
                             <th scope="col">{{ __('Descripcion Servicios') }}</th>
-                            <th scope="col" style="width: 150px">{{ __('Editar') }}</th>
-                            <th scope="col" style="width: 150px">{{ __('Eliminar') }}</th>
+                            <th scope="col">{{ __('Editar') }}</th>
+                            <th scope="col">{{ __('Eliminar') }}</th>
                         </tr>
                     </thead>
                     <tbody>

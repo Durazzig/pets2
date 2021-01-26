@@ -16,7 +16,7 @@ class ConsultasRecientes extends AbstractWidget
 
     public function run()
     {
-        $consultas = Consulta::whereDate('fecha', today())->paginate(5);
+        $consultas = Consulta::whereDate('fecha', today())->where('finalizado',0)->paginate(5);
         return view('widgets.consultas_recientes', [
             'config' => $this->config,
             'consultas' => $consultas,

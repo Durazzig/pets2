@@ -24,8 +24,9 @@
                         <div class="col-md-6">
                             <label for="name">{{ __('Medico') }}</label>
                             <select class="custom-select" name="medico_id" id="">
+                            <option value="{{$consulta->medico_id}}">{{$consulta->medico->name}}</option>
                                 @foreach($medicos as $medico)
-                                    <option value="{{$medico->id}}">{{$medico->empleado}}</option>
+                                    <option value="{{$medico->id}}">{{$medico->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -76,10 +77,10 @@
                     </div>
                     <div class="form-group form-row">
                         <div class="col-md-6">
-                            <button type="submit" class="btn btn-danger btn-lg btn-block">{{ __('Finalizar') }}</button>
+                            <button type="submit" name="action" value="finalizar" class="btn btn-danger btn-lg btn-block">{{ __('Finalizar') }}</button>
                         </div>
                         <div class="col-md-6">
-                            <button type="submit" class="btn btn-success btn-lg btn-block">{{ __('Guardar') }}</button>
+                            <button type="submit" name="action" value="guardar" class="btn btn-success btn-lg btn-block">{{ __('Guardar') }}</button>
                         </div>
                     </div>
                 </form>

@@ -26,7 +26,7 @@ class CreateConsultasTable extends Migration
             $table->string('edad');
             $table->string('raza');
             $table->string('servicio');
-            $table->string('aprobado')->default("nochecked");
+            $table->integer('finalizado')->default(0);
             $table->timestamps();
         });
     }

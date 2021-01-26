@@ -61,7 +61,14 @@
                         </div>
                         <div class="col-md-6">
                             <label for="phone">{{ __('Servicios') }}</label>
-                            <input type="text" name="servicio" id="servicio" class="form-control">
+                            <select class="custom-select" name="servicio" id="medico_id">
+                                <option value="Urgencia">Urgencia</option>
+                                <option value="Consulta">Consulta</option>
+                                <option value="Revision">Revision</option>
+                                <option value="Desparasitación">Desparasitación</option>
+                                <option value="Placa">Placa</option>
+                                <option value="Eutanasia">Eutanasia</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
