@@ -23,37 +23,56 @@
                     <div class="form-group form-row">
                         <div class="col-md-6">
                             <label for="name">{{ __('Proveedor') }}</label>
-                            <input type="text" name="provider_id" value="{{$bills->provider->name}}" id="phone" class="form-control @error('phone') is-invalid @enderror" disabled>
+                            <input type="text" name="folio" value="{{$bills->provider->name}}" id="phone" class="form-control @error('phone') is-invalid @enderror" disabled>
                         </div>
                         <div class="col-md-6">
                             <label for="phone">{{ __('Folio') }}</label>
                             <input type="text" name="folio" value="{{$bills->folio}}" id="phone" class="form-control @error('phone') is-invalid @enderror">
+                            @error('phone')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                     </div>
                     <div class="form-group form-row">
                         <div class="col-md-6">
                             <label for="name">{{ __('Fecha') }}</label>
                             <input type="date" name="fecha" value="{{$bills->fecha}}" id="name" class="form-control @error('name') is-invalid @enderror">
+                            @error('name')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                         <div class="col-md-6">
                             <label for="phone">{{ __('Fecha de Entrega') }}</label>
                             <input type="date" name="fecha_entrega" value="{{$bills->fecha_entrega}}" id="phone" class="form-control @error('phone') is-invalid @enderror">
+                            @error('phone')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                     </div>
                     <div class="form-group form-row">
                         <div class="col-md-6">
                             <label for="name">{{ __('Monto') }}</label>
                             <input type="text" name="monto" value="{{$bills->monto}}" id="name" class="form-control @error('name') is-invalid @enderror">
+                            @error('name')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                         <div class="col-md-6">
                             <label for="phone">{{ __('Empleado') }}</label>
                             <input type="text" name="empleado" value="{{$bills->empleado}}" id="phone" class="form-control @error('phone') is-invalid @enderror">
-                        </div>
-                    </div>
-                    <div class="form-group form-row">
-                        <div class="col-md-6">
-                            <label for="phone">{{ __('Imagen de factura') }}</label>
-                            <input type="file" name="imagen"/>
+                            @error('phone')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                     </div>
                     <div class="form-group">

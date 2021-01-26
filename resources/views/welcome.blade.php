@@ -88,6 +88,16 @@
                     </div>
                     
                 </div>
+                <div class="flex-center">
+                <div class="card text-dark bg-light w-75">
+                <div class="card-header">Información</div>
+                        <div class="card-body">
+                          <h2 class="card-title">Consultas del día:</h2>
+                          <h5 class="card-text display-3 text-center">20</h5>
+                        </div>
+                </div>
+                </div>
+                
             </div>
         </div>
     </body>

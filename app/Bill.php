@@ -21,8 +21,4 @@ class Bill extends Model
     {
         return $this->belongsTo('App\Provider','provider_id');
     }
-
-    public function empleados(){
-        return $this->belongsTo('App\User','empleado');
-    }
 }

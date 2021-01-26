@@ -23,8 +23,9 @@ Route::post('/facturas/store', 'BillController@store')->name('bills.store')->mid
 Route::any('/facturas/filterByDate', 'BillController@filterDate')->name('bills.filterDate')->middleware('auth','role:admin cajero almacenista');
 Route::any('/facturas/edit/{id}', 'BillController@edit')->name('bills.edit')->middleware('auth','role:admin');
 Route::any('facturas/update/{id}', 'BillController@update')->name('bills.update')->middleware('auth','role:admin');
-Route::get('/store_image/fetch_image/{id}','BillController@fetch_image');
-Route::delete('/facturas/delete/{id}', 'BillController@destroy')->name('bills.destroy')->middleware('auth','role:admin');
+Route::post('store_image/insert_image','BillController@store');
+Route::get('store_image/fetch_image/{id}','BillController@fetch_image');
+Route::get('/facturas/delete/{id}', 'BillController@destroy')->name('bills.destroy')->middleware('auth','role:admin');
 
 Route::get('/consultas', 'ConsultaController@index')->name('consultas.index')->middleware('auth','role:admin cajero medico_consulta recepcionista');
 Route::get('/consultas/new', 'ConsultaController@create')->name('consultas.create')->middleware('auth','role:admin cajero recepcionista medico_consulta');

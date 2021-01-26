@@ -20,8 +20,8 @@ class CreateFacturasTable extends Migration
             $table->date('fecha');
             $table->date('fecha_entrega');
             $table->double('monto');
-            $table->integer('empleado');
-            $table->mediumText('imagen')->nullable();
+            $table->string('empleado');
+            $table->binary('imagen');
             $table->foreign('provider_id')->references('id')->on('providers');
             $table->timestamps();
         });

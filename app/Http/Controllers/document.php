@@ -52,7 +52,7 @@ class document extends Controller
             );
         if($permisos->tipo_permiso == "Permiso" || $permisos->tipo_permiso == "Incapacidad")
         {
-            $fech = "                                                                                     Tuxtla Gutiérrez, Chis. ". $fecha->monthName . " " . $fecha->day . ", " . $fecha->year; 
+            $fech = "                                                                               Tuxtla Gutiérrez, Chis. ". $fecha->monthName . " " . $fecha->day . ", " . $fecha->year; 
             $salto = "";
             
             $part101 = "                   FORMATO PERMISO";
@@ -134,7 +134,7 @@ class document extends Controller
             return response()->download(storage_path("Permiso" . $mytime . ".docx"));
         } else
         {
-            $fech = "                                                                                     Tuxtla Gutiérrez, Chis. ". $fecha->monthName . " " . $fecha->day . ", " . $fecha->year; 
+            $fech = "                                                                                 Tuxtla Gutiérrez, Chis. ". $fecha->monthName . " " . $fecha->day . ", " . $fecha->year; 
             $salto = "";
             
             $part101 = "                   FORMATO VACACIONES";

@@ -10,11 +10,6 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    public function consultas()
-    {
-        return $this->hasMany('App\Consulta');
-    }
-
     public function roles()
     {
         return $this
@@ -79,9 +74,5 @@ class User extends Authenticatable
             return true;
         }
         return false;
-    }
-
-    public function facturas(){
-        return $this->hasMany('App\Bill');
     }
 }

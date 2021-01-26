@@ -28,40 +28,80 @@
                                         <option value="{{$empleado->id}}">{{$empleado->name}}</option>
                                     @endforeach
                                 </select>
+                            @error('phone')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                         <div class="col-md-6">
                             <label for="name">{{ __('Fecha') }}</label>
-                            <input type="date" name="fecha" value="{{$fecha}}" id="medico" class="form-control">
+                            <input type="date" name="fecha" value="{{$fecha}}" id="medico" class="form-control @error('phone') is-invalid @enderror">
+                            @error('phone')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                     </div>
                     <div class="form-group form-row">
                         <div class="col-md-6">
                             <label for="name">{{ __('Propietario') }}</label>
-                            <input type="text" name="propietario" id="propietario" class="form-control">
+                            <input type="text" name="propietario" id="propietario" class="form-control @error('name') is-invalid @enderror">
+                            @error('name')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                         <div class="col-md-6">
                             <label for="phone">{{ __('Mascota') }}</label>
-                            <input type="text" name="mascota" id="mascota" class="form-control">
+                            <input type="text" name="mascota" id="mascota" class="form-control @error('phone') is-invalid @enderror">
+                            @error('phone')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                     </div>
                     <div class="form-group form-row">
                         <div class="col-md-6">
                             <label for="name">{{ __('Peso') }}</label>
-                            <input type="text" name="peso" id="peso" class="form-control">
+                            <input type="text" name="peso" id="peso" class="form-control @error('name') is-invalid @enderror">
+                            @error('name')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                         <div class="col-md-6">
                             <label for="phone">{{ __('Edad') }}</label>
-                            <input type="text" name="edad" id="edad" class="form-control">
+                            <input type="text" name="edad" id="edad" class="form-control @error('phone') is-invalid @enderror">
+                            @error('phone')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                     </div>
                     <div class="form-group form-row">
                         <div class="col-md-6">
                             <label for="name">{{ __('Raza') }}</label>
-                            <input type="text" name="raza" id="raza" class="form-control">
+                            <input type="text" name="raza" id="raza" class="form-control @error('name') is-invalid @enderror">
+                            @error('name')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                         <div class="col-md-6">
                             <label for="phone">{{ __('Servicios') }}</label>
-                            <input type="text" name="servicio" id="servicio" class="form-control">
+                            <input type="text" name="servicio" id="servicio" class="form-control @error('phone') is-invalid @enderror">
+                            @error('phone')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                     </div>
                     <div class="form-group">
