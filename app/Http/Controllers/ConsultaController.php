@@ -202,6 +202,7 @@ class ConsultaController extends Controller
                     }
                 }
             }else{
+                echo 'Hola';
 
             }
            
