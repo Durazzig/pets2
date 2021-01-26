@@ -203,6 +203,7 @@ class ConsultaController extends Controller
                 }
                 dd($lista);
             }else{
+                echo 'Hola';
 
             }
            
