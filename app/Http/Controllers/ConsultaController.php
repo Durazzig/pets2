@@ -201,7 +201,6 @@ class ConsultaController extends Controller
                         $lista[] = $medicoName->name;
                     }
                 }
-                dd($lista);
             }else{
 
             }
