@@ -23,7 +23,7 @@
                     <div class="form-group form-row">
                         <div class="col-md-6">
                             <label for="name">{{ __('Proveedor') }}</label>
-                            <select class="custom-select" name="provider_id" id="provider_id">
+                            <select class="custom-select" name="provider_id">
                                 @foreach($providers as $provider)
                                     <option value="{{$provider->id}}">{{$provider->name}}</option>
                                 @endforeach
@@ -31,27 +31,31 @@
                         </div>
                         <div class="col-md-6">
                             <label for="phone">{{ __('Folio') }}</label>
-                            <input type="text" name="folio" id="phone" class="form-control @error('phone') is-invalid @enderror">
+                            <input type="text" name="folio" class="form-control @error('phone') is-invalid @enderror">
                         </div>
                     </div>
                     <div class="form-group form-row">
                         <div class="col-md-6">
                             <label for="name">{{ __('Fecha') }}</label>
-                            <input type="date" name="fecha" id="name" class="form-control @error('name') is-invalid @enderror">
+                            <input type="date" name="fecha" class="form-control @error('name') is-invalid @enderror">
                         </div>
                         <div class="col-md-6">
                             <label for="phone">{{ __('Fecha de Entrega') }}</label>
-                            <input type="date" name="fecha_entrega" id="phone" class="form-control @error('phone') is-invalid @enderror">
+                            <input type="date" name="fecha_entrega" class="form-control @error('phone') is-invalid @enderror">
                         </div>
                     </div>
                     <div class="form-group form-row">
                         <div class="col-md-6">
                             <label for="name">{{ __('Monto') }}</label>
-                            <input type="text" name="monto" id="name" class="form-control @error('name') is-invalid @enderror">
+                            <input type="text" name="monto" class="form-control @error('name') is-invalid @enderror">
                         </div>
                         <div class="col-md-6">
-                            <label for="phone">{{ __('Empleado') }}</label>
-                            <input type="text" name="empleado" id="phone" class="form-control @error('phone') is-invalid @enderror">
+                            <label for="name">{{ __('Empleado') }}</label>
+                            <select class="custom-select" name="empleado">
+                                @foreach($empleados as $empleado)
+                                    <option value="{{$empleado->id}}">{{$empleado->name}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="form-group form-row">

@@ -45,6 +45,9 @@
                 </div>
             </div>
             <div class="card-body">
+            @if(session('msg'))
+                <div class="alert alert-warning" align="center">{{session('msg')}}</div>
+            @endif
                 @if(Auth::user())
                 <table class="table table-hover table-responsive-lg fixed-table-body">
                     <thead>
@@ -57,7 +60,8 @@
                             <th scope="col">{{ __('Monto') }}</th>
                             <th scope="col">{{ __('Entrega') }}</th>
                             <th scope="col">{{ __('Imagen') }}</th>
-                            <th scope="col" style="width: 150px">{{ __('Opciones') }}</th>
+                            <th scope="col">{{ __('Editar') }}</th>
+                            <th scope="col">{{ __('Eliminar') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -69,15 +73,19 @@
                             <td>{{ $bill->fecha }}</td>
                             <td>{{ $bill->fecha_entrega }}</td>
                             <td>{{ $bill->monto }}</td>
-                            <td>{{ $bill->empleado }}</td>
-                            <td>
-                                <img src="store_image/fetch_image{{$bill->id}}"width="75" />
-                            </td>
+                            <td>{{ $bill->empleados->name }}</td>
+                            <td><img src="{{asset('uploads/facturas/' . $bill->imagen)}}" alt="image" height="50px" width="75px"></td>
                             <td>
                                 <a href="{{url('/facturas/edit',$bill->id)}}" class="btn btn-outline-secondary btn-sm">
                                     Editar
                                 </a>
-                                <button class="btn btn-outline-danger btn-sm btn-delete" data-id="{{ $bill->id }}">Borrar</button>
+                            </td>
+                            <td>
+                                <form action="{{route('bills.destroy',$bill->id)}}" method="POST">
+    								{{method_field('DELETE')}}
+    								@csrf
+    								<button type="submit" onclick="return confirm('¿Seguro que deseas eliminarlo?')" class="btn btn-danger btn-sm">Eliminar</button>
+    							</form>
                             </td>
                         </tr>
                         @endforeach

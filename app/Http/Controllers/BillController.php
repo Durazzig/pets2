@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Bill;
 use App\Provider;
+use App\User;
 use Carbon\Carbon;
 use SebastianBergmann\CodeUnitReverseLookup\Wizard;
 use Image;
@@ -19,7 +20,7 @@ class BillController extends Controller
      */
     public function index()
     {
-        $bills = Bill::whereDate('fecha', today())->paginate(10);
+        $bills = Bill::whereDate('fecha', today())->paginate(5);
         $providers = Provider::all();
         //dd($bills);
         return view('bills.index', [
@@ -35,8 +36,9 @@ class BillController extends Controller
      */
     public function create()
     {
+        $empleados = User::where('work_area','almacen')->get();
         $providers = Provider::all();
-        return view('bills.create',compact('providers'));
+        return view('bills.create',compact('providers'))->with(compact('empleados'));
     }
 
     /**
@@ -47,30 +49,36 @@ class BillController extends Controller
      */
     public function store(Request $request)
     {
-        $image_file = $request->user_image;
-        //dd($image_file);
-        $image = Image::make($image_file);
-        Response::make($image->encode('jpeg'));
-        //dd($image);
+        //dd($request);
         $request->validate([
             'provider_id'  => 'required',
-            'folio' => 'required',
+            'folio' => 'required|numeric|min:3',
             'fecha' => 'required',
             'fecha_entrega' => 'required',
-            'monto' => 'required',
+            'monto' => 'required|numeric',
             'empleado' => 'required',
         ]);
 
-        Bill::create([
-            'provider_id' => $request->input('provider_id'),
-            'folio' => $request->input('folio'),
-            'fecha' => $request->input('fecha'),
-            'fecha_entrega' => $request->input('fecha_entrega'),
-            'monto' => $request->input('monto'),
-            'empleado' => $request->input('empleado'),
-            'imagen' => $image,
-        ]);
 
+        $bill = new Bill();
+        $bill->provider_id = $request->input('provider_id');
+        $bill->folio = $request->input('folio');
+        $bill->fecha = $request->input('fecha');
+        $bill->fecha_entrega = $request->input('fecha_entrega');
+        $bill->monto = $request->input('monto');
+        $bill->empleado = $request->input('empleado');
+
+        if ($request->hasFile('user_image')) {
+            $file = $request->file('user_image');
+            $extension = $file->getClientOriginalExtension();
+            $filename = 'Factura' . time() . '.' . $extension;
+            $file->move('uploads/facturas/',$filename);
+            $bill->imagen = $filename;
+        }else{
+            $bill->imagen = '';
+        }
+
+        $bill->save();
         
         return redirect()->route('bills.index');
     }
@@ -105,10 +113,7 @@ class BillController extends Controller
         {
             $providers = Provider::all();
             $bills = Bill::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->paginate(10);
-            return view('bills.index', [
-                'bills' => $bills,
-                'providers' => $providers,
-            ]);
+            return redirect()->route('bills.index')->with(compact('providers'))->with('bills');
         }
         
     }
@@ -155,11 +160,4 @@ class BillController extends Controller
         return redirect()->back()->with('msg','Factura eliminado correctamente');
     }
 
-    public function fetch_image($id){
-        $image = User::findOrFail($id);
-        $image_file = Image::make($image->imagen);
-        $response = Response::make($image_file->encode('jpeg'));
-        $response->header('Content-Type','image/jpeg');
-        return $response;
-    }
 }

@@ -28,6 +28,11 @@ class ProviderController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|max:255',
+            'phone' => 'required',
+        ]);
+        
         Provider::create([
             'name'  => $request->input('name'),
             'phone' => $request->input('phone'),
@@ -65,7 +70,7 @@ class ProviderController extends Controller
 
         if($provider->bills()->count())
         {
-            return redirect()->back()->with('msg','No puedes borrar este proveedor');
+            return redirect()->back()->with('msg','No puedes borrar este proveedor, hay una factura relacionada');
         }
         else{
             $provider->delete();

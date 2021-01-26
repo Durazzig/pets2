@@ -35,6 +35,7 @@
                             <label for="name">{{ __('Area') }}</label>
                             <select name="empleado_area" class="form-control">
                                 <option value="Caja">Caja</option>
+                                <option value="Almacen">Almacen</option>
                                 <option value="Recepcion">Recepción</option>
                                 <option value="Hospital">Hospital</option>
                                 <option value="Laboratorio">Laboratorio</option>

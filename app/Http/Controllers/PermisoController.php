@@ -58,7 +58,7 @@ class PermisoController extends Controller
         ]);
         $permisos = Permiso::all();
 
-        return view('permisos.index', compact('permisos'));
+        return redirect()->route('permisos.index')->with(compact('permisos'));
     }
 
     /**
