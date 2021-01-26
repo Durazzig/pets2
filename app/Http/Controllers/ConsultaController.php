@@ -152,6 +152,74 @@ class ConsultaController extends Controller
                 'consultas' => $consultas,
                 'medicos' => $medicos,
             ]);
+        }$request->validate([
+            'desde' => 'required',
+            'hasta' => 'required',
+            'medico_id' => 'required',
+            
+        ]);
+        $fecha_inicial = $request -> input('desde');
+        $fecha_final = $request -> input('hasta');
+        $selectValue = $request -> input('medico_id');
+        switch ($request->input('action')) {
+        case 'filtrar':
+            if($selectValue != "todos")
+            {
+                $medico = $request -> input('medico_id');
+                $medicos = User::where('work_area','hospital')->get();
+                $consultas = Consulta::where('medico_id',$medico)->whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->paginate(10);
+                return view('consultas.index', [
+                    'consultas' => $consultas,
+                    'medicos' => $medicos,
+                ]);
+            }
+            else
+            {
+                $medicos = User::all();
+                $consultas = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->paginate(10);
+                return view('consultas.index', [
+                    'consultas' => $consultas,
+                    'medicos' => $medicos,
+                ]);
+            }
+            break;
+
+        case 'imprimir':
+            if($selectValue == 'todos')
+            {
+                $lista = array();
+                $medicos = Consulta::distinct('medico_id')->get('medico_id');
+                foreach($medicos as $medico){
+                    $noConsultas = Consulta::where('medico_id',$medico->medico_id)->count('medico_id');
+                    $medicosName = User::where('id',$medico->medico_id)->get('name');
+                    $maxServices = Consulta::where('medico_id',$medico->medico_id)->min('servicio');
+                    $minServices = Consulta::where('medico_id',$medico->medico_id)->max('servicio');
+                    $lista[] = $noConsultas;
+                    $lista[] = $maxServices;
+                    $lista[] = $minServices;
+                    foreach($medicosName as $medicoName){
+                        $lista[] = $medicoName->name;
+                    }
+                }
+                dd($lista);
+            }else{
+
+            }
+           
+
+            $wordTest = new \PhpOffice\PhpWord\PhpWord();
+            $newSection = $wordTest->addSection();
+            $mytime = Carbon::now()->timezone('America/Mexico_City')->toDateString();
+            $fech = "                                                                                     Tuxtla Gutiérrez, Chis. "; 
+            $newSection->addText($fech);
+            $objectWriter = \PhpOffice\PhpWord\IOFactory::createWriter($wordTest, "Word2007");
+            try{
+                $objectWriter->save(storage_path("Reporte" . $mytime .".docx"));
+            }catch(Exception $e){
+    
+            }
+            return response()->download(storage_path("Reporte" . $mytime . ".docx"));
+            break;
         }
         
     }
