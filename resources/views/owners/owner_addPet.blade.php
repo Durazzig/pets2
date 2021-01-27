@@ -27,7 +27,10 @@
                         </div>
                         <div class="col-md-6">
                             <label>Especie</label>
-                            <input type="text" name="species" class="form-control" required>
+                            <select class="custom-select" name="species" id="">
+                                <option value="Canino">Canino</option>
+                                <option value="Felino">Felino</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group form-row">
@@ -37,13 +40,17 @@
                         </div>
                         <div class="col-md-6">
                             <label>Edad</label>
-                            <input type="text" name="age" class="form-control" required>
+                            <input type="date" name="dob" class="form-control" required>
                         </div>
                     </div>
                     <div class="form-group form-row">
                         <div class="col-md-12">
                             <label>Estatus</label>
-                            <input type="text" name="status" class="form-control" required>
+                            <select class="custom-select" name="status" id="">
+                                <option value="Hospitalizado">Hospitalizado</option>
+                                <option value="Dado de alta">Dado de alta</option>
+                                <option value="Fallecido">Fallecido</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">

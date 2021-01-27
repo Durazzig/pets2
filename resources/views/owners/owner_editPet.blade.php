@@ -27,7 +27,11 @@
                         </div>
                         <div class="col-md-6">
                             <label for="phone">{{ __('Especie') }}</label>
-                            <input type="text" name="species" value="{{$pet->species}}" id="phone" class="form-control @error('phone') is-invalid @enderror">
+                            <select class="custom-select" name="species" id="">
+                                <option value="{{$pet->species}}">{{$pet->species}}</option>
+                                <option value="Canino">Canino</option>
+                                <option value="Felino">Felino</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group form-row">
@@ -36,14 +40,17 @@
                             <input type="text" name="raze" value="{{$pet->raze}}" id="raza" class="form-control @error('name') is-invalid @enderror">
                         </div>
                         <div class="col-md-6">
-                            <label for="phone">{{ __('Edad') }}</label>
-                            <input type="text" name="age" value="{{$pet->age}}" id="phone" class="form-control @error('phone') is-invalid @enderror">
+                            <label for="phone">{{ __('Fecha de nacimiento') }}</label>
+                            <input type="date" name="dob" value="{{$pet->dob}}" class="form-control @error('phone') is-invalid @enderror">
                         </div>
                     </div>
                     <div class="form-group form-row">
                         <div class="col-md-12">
-                            <label for="name">{{ __('Estatus') }}</label>
-                            <input type="text" name="status" value="{{$pet->status}}" id="name" class="form-control @error('name') is-invalid @enderror">
+                            <select class="custom-select" name="status" id="">
+                                <option value="{{$pet->status}}">{{$pet->status}}</option>
+                                <option value="Hospitalizado">Hospitalizado</option>
+                                <option value="Dado de alta">Dado de alta</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group form-row">

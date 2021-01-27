@@ -38,7 +38,7 @@
                         <td>{{ $pet->name }}</td>
                         <td>{{ $pet->species }}</td>
                         <td>{{ $pet->raze }}</td>
-						<td>{{ $pet->age }}</td>
+						<td>{{ $pet->getAgeAttribute() }}</td>
 						<td>{{ $pet->status }}</td>
                         <td>
 							<a href="{{route('pets.editFromOwner',$pet->id)}}" class="btn btn-outline-secondary btn-sm">

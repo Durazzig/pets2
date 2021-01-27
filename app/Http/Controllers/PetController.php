@@ -50,23 +50,23 @@ class PetController extends Controller
 
     public function storeFromOwner(Request $request,$id)
     {
-        //dd($id);
+        //dd($request->input('dob'));
         $request->validate([
             'name'  => 'required',
             'species' => 'required',
             'raze' => 'required',
-            'age' => 'required',
+            'dob' => 'required',
             'status' => 'required',
         ]);
 
-        Pet::create([
-            'name'  => $request->input('name'),
-            'species'  => $request->input('species'),
-            'raze' => $request->input('raze'),
-            'age' => $request->input('age'),
-            'status' => $request->input('status'),
-            'owner_id' => $id,
-        ]);
+        $pet = new Pet();
+        $pet->name = $request->input('name');
+        $pet->owner_id = $id;
+        $pet->species = $request->input('species');  
+        $pet->raze = $request->input('raze'); 
+        $pet->dob = $request->input('dob'); 
+        $pet->status = $request->input('status'); 
+        $pet->save();
 
 
         $pets = Pet::where('owner_id',$id)->get();
@@ -96,8 +96,22 @@ class PetController extends Controller
 
     public function updateFromOwner(Request $request, $id)
     {
-        $pet = $request->except('_token');
-        Pet::where('id','=',$id)->update($pet);
+
+        $request->validate([
+            'name'  => 'required',
+            'species' => 'required',
+            'raze' => 'required',
+            'dob' => 'required',
+            'status' => 'required',
+        ]);
+
+        $pet = Pet::where('id',$id)->first();
+        $pet->name = $request->input('name');
+        $pet->species = $request->input('species');  
+        $pet->raze = $request->input('raze'); 
+        $pet->dob = $request->input('dob'); 
+        $pet->status = $request->input('status'); 
+        $pet->save();
         $owners = Owner::all();
         return view('owners.index',compact('owners'));
     }

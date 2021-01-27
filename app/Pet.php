@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Pet extends Model
 {
@@ -13,5 +14,10 @@ class Pet extends Model
     public function owner()
     {
         return $this->belongsTo('App\Owner','owner_id');
+    }
+
+    public function getAgeAttribute()
+    {
+        return Carbon::createFromFormat('Y-m-d', $this->dob)->diffInYears();
     }
 }

@@ -47,7 +47,7 @@
             @if(session('msg'))
                 <div class="alert alert-warning" align="center">{{session('msg')}}</div>
             @endif
-                @if(Auth::user())
+            @if(Auth::user())
             <table class="table table-hover table-responsive-lg table-striped">
                 <thead class="bg-primary text-white">
                     <tr>

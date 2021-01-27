@@ -19,7 +19,7 @@ class CreatePetsTable extends Migration
             $table->string('name');
             $table->string('species');
             $table->string('raze');
-            $table->string('age');
+            $table->date('dob');
             $table->string('status');
             $table->foreign('owner_id')->references('id')->on('owners');
             $table->timestamps();

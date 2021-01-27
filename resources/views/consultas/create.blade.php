@@ -18,7 +18,7 @@
             </div>
             <div class="card-body">
                 @if(Auth::user())
-                <form action="{{ route('consultas.store') }}" method="POST">
+                <form action="{{ route('consultas.store') }}" method="POST" autocomplete="on">
                     @csrf
                     <div class="form-group form-row">
                         <div class="col-md-6">
@@ -37,7 +37,8 @@
                     <div class="form-group form-row">
                         <div class="col-md-6">
                             <label for="name">{{ __('Propietario') }}</label>
-                            <input type="text" name="propietario" id="propietario" class="form-control">
+                            <input type="text" name="propietario" id="propietario" placeholder="Ingresa nombre de propietario" class="form-control">
+                            <div id="lista_propietarios"></div> 
                         </div>
                         <div class="col-md-6">
                             <label for="phone">{{ __('Mascota') }}</label>
@@ -61,7 +62,7 @@
                         </div>
                         <div class="col-md-6">
                             <label for="phone">{{ __('Servicios') }}</label>
-                            <select class="custom-select" name="servicio" id="medico_id">
+                            <select class="custom-select" name="servicio">
                                 <option value="Urgencia">Urgencia</option>
                                 <option value="Consulta">Consulta</option>
                                 <option value="Revision">Revision</option>
@@ -82,5 +83,35 @@
         </div>
     </div>
 </div>
+<script>
+    // $(document).ready(function () {
+             
+    //          $('#propietario').on('keyup',function() {
+    //              var query = $(this).val(); 
+    //              $.ajax({
+                    
+    //                  url:"{{ route('empleados.getEmpleados') }}",
+               
+    //                  type:"GET",
+                    
+    //                  data:{'country':query},
+                    
+    //                  success:function (data) {
+                       
+    //                      $('#lista_propietarios').html(data);
+    //                  }
+    //              })
+    //              // end of ajax call
+    //          });
+
+             
+    //          $(document).on('click', 'li', function(){
+               
+    //              var value = $(this).text();
+    //              $('#propietario').val(value);
+    //              $('#lista_propietarios').html("");
+    //          });
+    //      });
+</script>
 @endsection
 

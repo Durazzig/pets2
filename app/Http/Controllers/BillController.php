@@ -18,7 +18,6 @@ class BillController extends Controller
     {
         $bills = Bill::whereDate('fecha', today())->paginate(5);
         $providers = Provider::all();
-        //dd($bills);
         return view('bills.index', [
             'bills' => $bills,
             'providers' => $providers,
@@ -100,6 +99,14 @@ class BillController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'folio' => 'required|numeric|min:3',
+            'fecha' => 'required',
+            'fecha_entrega' => 'required',
+            'monto' => 'required|numeric',
+            'empleado' => 'required',
+        ]);
+
         $bill = $request->except('_token');
         Bill::where('id','=',$id)->update($bill);
         $bills = Bill::paginate(10);
@@ -111,7 +118,7 @@ class BillController extends Controller
     {
         $bill = Bill::find($id);
         $bill->delete();
-        return redirect()->back()->with('msg','Factura eliminado correctamente');
+        return redirect()->back()->with('msg','Factura eliminada correctamente');
     }
 
 }

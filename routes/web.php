@@ -25,7 +25,7 @@ Route::any('/facturas/edit/{id}', 'BillController@edit')->name('bills.edit')->mi
 Route::any('facturas/update/{id}', 'BillController@update')->name('bills.update')->middleware('auth','role:admin');
 Route::post('store_image/insert_image','BillController@store');
 Route::get('store_image/fetch_image/{id}','BillController@fetch_image');
-Route::get('/facturas/delete/{id}', 'BillController@destroy')->name('bills.destroy')->middleware('auth','role:admin');
+Route::delete('/facturas/delete/{id}', 'BillController@destroy')->name('bills.destroy')->middleware('auth','role:admin');
 
 Route::get('/consultas', 'ConsultaController@index')->name('consultas.index')->middleware('auth','role:admin cajero medico_consulta recepcionista');
 Route::get('/consultas/new', 'ConsultaController@create')->name('consultas.create')->middleware('auth','role:admin cajero recepcionista medico_consulta');
@@ -64,6 +64,7 @@ Route::get('/empleados', 'EmpleadoController@index')->name('empleados.index')->m
 Route::get('/empleados/new', 'EmpleadoController@create')->name('empleados.create')->middleware('auth','role:admin');
 Route::any('/empleados/store', 'EmpleadoController@store')->name('empleados.store')->middleware('auth','role:admin');
 Route::any('/empleados/edit/{id}', 'EmpleadoController@edit')->name('empleados.edit')->middleware('auth','role:admin');
+Route::any('/empleados/get', 'EmpleadoController@getEmpleados')->name('empleados.getEmpleados')->middleware('auth','role:admin');
 Route::any('/empleados/update{id}', 'EmpleadoController@update')->name('empleados.update')->middleware('auth','role:admin');
 Route::delete('/empleados/delete/{id}', 'EmpleadoController@destroy')->name('empleados.delete')->middleware('auth','role:admin');
 
