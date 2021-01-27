@@ -14,53 +14,49 @@
                     </div>
                 </div>
             </div>
-            <div class="card-body"> 
             @if(session('msg'))
                 <div class="alert alert-warning" align="center">{{session('msg')}}</div>
             @endif
-                @if(Auth::user())
-                <table class="table table-hover table-responsive-lg fixed-table-body">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">{{ __('Nombre') }}</th>
-                            <th scope="col">{{ __('Especie') }}</th>
-                            <th scope="col">{{ __('Raza') }}</th>
-							<th scope="col">{{ __('Edad') }}</th>
-							<th scope="col">{{ __('Estatus') }}</th>
-                            <th scope="col" style="width: 150px">{{ __('Editar') }}</th>
-							<th scope="col" style="width: 150px">{{ __('Eliminar') }}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($pets as $pet)
-                        <tr>
-                            <td>{{ $pet->id }}</td>
-                            <td>{{ $pet->name }}</td>
-                            <td>{{ $pet->species }}</td>
-                            <td>{{ $pet->raze }}</td>
-							<td>{{ $pet->age }}</td>
-							<td>{{ $pet->status }}</td>
-                            <td>
-								<a href="{{route('pets.editFromOwner',$pet->id)}}" class="btn btn-outline-secondary btn-sm">
-									Editar
-                                </a>
-                            </td>
-							<td>
-								<form action="{{route('pets.delete',$pet->id)}}" method="POST">
-									{{method_field('DELETE')}}
-									@csrf
-									<button type="submit" class="btn btn-danger btn-sm">Borrar</button>
-    							</form>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-                @else
-                    <strong>Se ha detetectado que no te has logueado -> Por favor inicia sesion</strong>
-                @endif
-            </div>
+            @if(Auth::user())
+            <table class="table table-hover table-responsive-lg table-striped">
+                <thead class="bg-primary text-white">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">{{ __('Nombre') }}</th>
+                        <th scope="col">{{ __('Especie') }}</th>
+                        <th scope="col">{{ __('Raza') }}</th>
+						<th scope="col">{{ __('Edad') }}</th>
+						<th scope="col">{{ __('Estatus') }}</th>
+                        <th scope="col" style="width: 150px">{{ __('Editar') }}</th>
+						<th scope="col" style="width: 150px">{{ __('Eliminar') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($pets as $pet)
+                    <tr>
+                        <td>{{ $pet->id }}</td>
+                        <td>{{ $pet->name }}</td>
+                        <td>{{ $pet->species }}</td>
+                        <td>{{ $pet->raze }}</td>
+						<td>{{ $pet->age }}</td>
+						<td>{{ $pet->status }}</td>
+                        <td>
+							<a href="{{route('pets.editFromOwner',$pet->id)}}" class="btn btn-outline-secondary btn-sm">
+								Editar
+                            </a>
+                        </td>
+						<td>
+							<form action="{{route('pets.delete',$pet->id)}}" method="POST">
+								{{method_field('DELETE')}}
+								@csrf
+								<button type="submit" class="btn btn-danger btn-sm">Borrar</button>
+    						</form>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            @endif
         </div>
     </div>
 </div>

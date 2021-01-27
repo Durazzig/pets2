@@ -13,11 +13,7 @@ use Illuminate\Support\Facades\Response;
 
 class BillController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $bills = Bill::whereDate('fecha', today())->paginate(5);
@@ -29,11 +25,6 @@ class BillController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $empleados = User::where('work_area','almacen')->get();
@@ -41,17 +32,10 @@ class BillController extends Controller
         return view('bills.create',compact('providers'))->with(compact('empleados'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //dd($request);
         $request->validate([
-            'provider_id'  => 'required',
+            'provider_id'  => 'required|numeric',
             'folio' => 'required|numeric|min:3',
             'fecha' => 'required',
             'fecha_entrega' => 'required',
@@ -83,17 +67,6 @@ class BillController extends Controller
         return redirect()->route('bills.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
     public function filterDate(Request $request)
     {
         $fecha_inicial = $request -> input('desde');
@@ -113,17 +86,11 @@ class BillController extends Controller
         {
             $providers = Provider::all();
             $bills = Bill::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->paginate(10);
-            return redirect()->route('bills.index')->with(compact('providers'))->with('bills');
+            return view('bills.index',compact('providers'))->with(compact('bills'));
         }
         
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $bills = Bill::find($id);
@@ -131,13 +98,6 @@ class BillController extends Controller
         return view('bills.edit', compact('bills', 'providers'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $bill = $request->except('_token');
@@ -147,12 +107,6 @@ class BillController extends Controller
         return view('bills.index', compact('bills','providers'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $bill = Bill::find($id);

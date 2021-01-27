@@ -16,59 +16,57 @@
                     </div>
                 </div>
             </div>
-            <div class="card-body">
             @if(session('msg'))
                 <div class="alert alert-warning" align="center">{{session('msg')}}</div>
             @endif
-                @if(Auth::user())
-                <table class="table table-hover table-responsive-lg fixed-table-body">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">{{ __('Nombre') }}</th>
-                            <th scope="col">{{ __('Usuario') }}</th>
-                            <th scope="col">{{ __('Rol') }}</th>
-                            <th scope="col" style="width: 100px">{{ __('Direccion') }}</th>
-                            <th scope="col">{{ __('Celular') }}</th>
-                            <th scope="col">{{ __('Area') }}</th>
-                            <th scope="col">{{ __('Editar') }}</th>
-                            <th scope="col">{{ __('Eliminar') }}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($empleados as $empleado)
-                        <tr>
-                            <td>{{ $empleado->id }}</td>
-                            <td>{{ $empleado->name }}</td>
-                            <td>{{ $empleado->username }}</td>
-                            <td>
-                                @foreach($empleado->roles as $role)
-                                    {{$role->name}}
-                                @endforeach
-                            </td>
-                            <td>{{ $empleado->address }}</td>
-                            <td>{{ $empleado->phone }}</td>
-                            <td>{{ $empleado->work_area }}</td>
-                            <td>
-                                <a href="{{url('/empleados/edit',$empleado->id)}}" class="btn btn-outline-secondary btn-sm">
-                                    Editar
-                                </a>
-                            </td>
-                            <td>
-                                <form action="{{route('empleados.delete',$empleado->id)}}" method="POST">
-									{{method_field('DELETE')}}
-									@csrf
-									<button type="submit" onclick="return confirm('¿Seguro que deseas eliminarlo?')" class="btn btn-danger btn-sm">Eliminar</button>
-								</form>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-                @else
-                    <strong>Se ha detetectado que no te has logueado -> Por favor inicia sesion</strong>
-                @endif
-            </div>
+             @if(Auth::user())
+             <table class="table table-hover table-responsive-lg table-striped">
+                 <thead class="bg-primary text-white">
+                     <tr>
+                         <th scope="col">#</th>
+                         <th scope="col">{{ __('Nombre') }}</th>
+                         <th scope="col">{{ __('Usuario') }}</th>
+                         <th scope="col">{{ __('Rol') }}</th>
+                         <th scope="col" style="width: 100px">{{ __('Direccion') }}</th>
+                         <th scope="col">{{ __('Celular') }}</th>
+                         <th scope="col">{{ __('Area') }}</th>
+                         <th scope="col">{{ __('Editar') }}</th>
+                         <th scope="col">{{ __('Eliminar') }}</th>
+                     </tr>
+                 </thead>
+                 <tbody>
+                     @foreach ($empleados as $empleado)
+                     <tr>
+                         <td>{{ $empleado->id }}</td>
+                         <td>{{ $empleado->name }}</td>
+                         <td>{{ $empleado->username }}</td>
+                         <td>
+                             @foreach($empleado->roles as $role)
+                                 {{$role->name}}
+                             @endforeach
+                         </td>
+                         <td>{{ $empleado->address }}</td>
+                         <td>{{ $empleado->phone }}</td>
+                         <td>{{ $empleado->work_area }}</td>
+                         <td>
+                             <a href="{{url('/empleados/edit',$empleado->id)}}" class="btn btn-outline-secondary btn-sm">
+                                 Editar
+                             </a>
+                         </td>
+                         <td>
+                             <form action="{{route('empleados.delete',$empleado->id)}}" method="POST">
+								{{method_field('DELETE')}}
+								@csrf
+								<button type="submit" onclick="return confirm('¿Seguro que deseas eliminarlo?')" class="btn btn-danger btn-sm">Eliminar</button>
+							</form>
+                         </td>
+                     </tr>
+                     @endforeach
+                 </tbody>
+             </table>
+             @else
+                 <strong>Se ha detetectado que no te has logueado -> Por favor inicia sesion</strong>
+             @endif
         </div>
     </div>
 </div>
