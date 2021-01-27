@@ -53,7 +53,6 @@
                             <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-toggle="dropdown">Área médica</a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                               <a class="dropdown-item" href="{{route('consultas.index')}}">Consultas</a>
-                              <a class="dropdown-item" href="{{route('citas.index')}}">Citas</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
