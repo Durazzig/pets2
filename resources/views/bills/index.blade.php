@@ -39,7 +39,10 @@
                                 </select>
                             </div>
                             <div class="form-group col-md-4">
-                                <button type="submit" class="btn btn-success btn-md btn-block">{{ __('Buscar') }}</button>
+                                <button type="submit" name="action" value="filtrar" class="btn btn-success btn-md btn-block">{{ __('Buscar') }}</button>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <button type="submit" name="action" value="imprimir" class="btn btn-success btn-md btn-block">{{ __('Exportar') }}</button>
                             </div>
                         </form>
                 </div>
@@ -91,8 +94,6 @@
                 </tbody>
             </table>
             {{$bills->links()}}
-            @else
-            <strong>Se ha detetectado que no te has logueado -> Por favor inicia sesion</strong>
             @endif
         </div>
     </div>

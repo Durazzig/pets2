@@ -8,15 +8,16 @@ use App\Provider;
 use App\User;
 use Carbon\Carbon;
 use SebastianBergmann\CodeUnitReverseLookup\Wizard;
-use Image;
 use Illuminate\Support\Facades\Response;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\BillsExport;
 
 class BillController extends Controller
 {
 
     public function index()
     {
-        $bills = Bill::whereDate('fecha', today())->paginate(5);
+        $bills = Bill::whereDate('fecha', today())->paginate(10);
         $providers = Provider::all();
         return view('bills.index', [
             'bills' => $bills,
@@ -71,21 +72,28 @@ class BillController extends Controller
         $fecha_inicial = $request -> input('desde');
         $fecha_final = $request -> input('hasta');
         $selectValue = $request -> input('provider_id');
-        if($selectValue != "todos")
-        {
-            $provider = $request -> input('provider_id');
-            $providers = Provider::all();
-            $bills = Bill::where('provider_id',$provider)->whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->paginate(10);
-            return view('bills.index', [
-                'bills' => $bills,
-                'providers' => $providers,
-            ]);
-        }
-        else
-        {
-            $providers = Provider::all();
-            $bills = Bill::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->paginate(10);
-            return view('bills.index',compact('providers'))->with(compact('bills'));
+        switch ($request->input('action')) {
+            case 'filtrar':
+                if($selectValue != "todos")
+                {
+                    $provider = $request -> input('provider_id');
+                    $providers = Provider::all();
+                    $bills = Bill::where('provider_id',$provider)->whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->paginate(10);
+                    return view('bills.index', [
+                        'bills' => $bills,
+                        'providers' => $providers,
+                    ]);
+                }
+                else
+                {
+                    $providers = Provider::all();
+                    $bills = Bill::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->paginate(10);
+                    return view('bills.index',compact('providers'))->with(compact('bills'));
+                }
+                break;
+            case 'imprimir':
+                return Excel::download(new BillsExport,'facturas.xlsx');
+                break;
         }
         
     }
@@ -118,7 +126,7 @@ class BillController extends Controller
     {
         $bill = Bill::find($id);
         $bill->delete();
-        return redirect()->back()->with('msg','Factura eliminada correctamente');
+        return redirect()->route('bills.index')->with('msg','Factura eliminada correctamente');
     }
 
 }

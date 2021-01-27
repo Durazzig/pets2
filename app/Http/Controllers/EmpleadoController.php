@@ -11,7 +11,7 @@ class EmpleadoController extends Controller
 {
     public function index()
     {
-        $empleados = User::all();
+        $empleados = User::paginate(10);
         return view('empleados.index', compact('empleados'));
     }
     public function create()
@@ -30,7 +30,7 @@ class EmpleadoController extends Controller
         $user->password = bcrypt($request->input('empleado_contraseña'));
         $user->save();
         $user->roles()->attach($role);
-        $empleados = User::all();
+        $empleados = User::paginate(10);
 
         return view('empleados.index', compact('empleados'));
     }
@@ -50,7 +50,7 @@ class EmpleadoController extends Controller
         $empleado->address = $request->input('empleado_direccion');
         $empleado->save();
         $empleado->roles()->sync($role);
-        $empleados = User::all();
+        $empleados = User::paginate(10);
         return redirect()->route('empleados.index')->with(compact('empleados'));
     }
     public function destroy($id)
@@ -58,17 +58,17 @@ class EmpleadoController extends Controller
         $empleado = User::find($id);
         if($empleado->consultas()->count())
         {
-            return redirect()->back()->with('msg','No puedes borrar este empleado, hay una consulta relacionada');
+            return redirect()->route('empleados.index')->with('msg','No puedes borrar este empleado, hay una consulta relacionada');
         }
         else if($empleado->permisos()->count()){
-            return redirect()->back()->with('msg','No puedes borrar este empleado, hay un permiso relacionada');
+            return redirect()->route('empleados.index')->with('msg','No puedes borrar este empleado, hay un permiso relacionada');
         }
         else if($empleado->facturas()->count()){
-            return redirect()->back()->with('msg','No puedes borrar este empleado, hay una factura relacionada');
+            return redirect()->route('empleados.index')->with('msg','No puedes borrar este empleado, hay una factura relacionada');
         }
         else{
             $empleado->delete();
-            return redirect()->back()->with('msg','Empleado eliminado correctamente');
+            return redirect()->route('empleados.index')->with('msg','Empleado eliminado correctamente');
         }
     }
     

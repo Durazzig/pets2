@@ -13,7 +13,7 @@ class ProviderController extends Controller
 
     public function index()
     {
-        $providers = Provider::all();
+        $providers = Provider::paginate(10);
         return view('providers.index', [
             'providers' => $providers,
         ]); 
@@ -59,7 +59,7 @@ class ProviderController extends Controller
     {
         $provider = $request->except('_token');
         Provider::where('id','=',$id)->update($provider);
-        $providers = Provider::all();
+        $providers = Provider::paginate(10);
         return view('providers.index',compact('providers'));
     }
 

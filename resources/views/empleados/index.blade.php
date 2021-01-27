@@ -64,8 +64,7 @@
                      @endforeach
                  </tbody>
              </table>
-             @else
-                 <strong>Se ha detetectado que no te has logueado -> Por favor inicia sesion</strong>
+             {{$empleados->links()}}
              @endif
         </div>
     </div>

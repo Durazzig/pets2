@@ -11,7 +11,7 @@ class OwnerController extends Controller
     
     public function index()
     {
-        $owners = Owner::all();
+        $owners = Owner::paginate(10);
         return view('owners.index', compact('owners'));
     }
 
@@ -63,16 +63,16 @@ class OwnerController extends Controller
         $owner = Owner::find($id);
         if($owner->pets()->count())
         {
-            return redirect()->back()->with('msg','No puedes borrar este propietario, hay una mascota relacionada');
+            return redirect()->route('owners.index')->with('msg','No puedes borrar este propietario, hay una mascota relacionada');
         }
         else{
             $owner->delete();
-            return redirect()->back()->with('msg','Propietario eliminado correctamente');
+            return redirect()->route('owners.index')->with('msg','Propietario eliminado correctamente');
         }
     }
 
     public function pets($id){
-        $pets = Pet::where('owner_id',$id)->get();
+        $pets = Pet::where('owner_id',$id)->paginate(10);
         $owner = owner::find($id);
         return view('owners.owner_pets', compact('pets'))->with(compact('owner'));
     }

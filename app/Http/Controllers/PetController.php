@@ -11,7 +11,7 @@ class PetController extends Controller
     
     public function index()
     {
-        $pets = Pet::orderBy('owner_id')->get();
+        $pets = Pet::orderBy('owner_id')->paginate(10);
         return view('pets.index', compact('pets'));
     }
 
@@ -69,7 +69,7 @@ class PetController extends Controller
         $pet->save();
 
 
-        $pets = Pet::where('owner_id',$id)->get();
+        $pets = Pet::where('owner_id',$id)->paginate(10);
         $owner = owner::find($id);
         //return redirect()->back();
         return view('owners.owner_pets', compact('pets'))->with(compact('owner'));

@@ -119,7 +119,7 @@ class ConsultaController extends Controller
                 $medicos = User::where('work_area','Hospital')->get();
                 $consulta = $request->only('medico_id','propietario','raza','edad','peso','mascota','servicio');
                 Consulta::where('id','=',$id)->update($consulta);
-                $consultas = Consulta::paginate(5);
+                $consultas = Consulta::paginate(10);
                 return redirect()->route('consultas.index',compact('consultas'))->with(compact('medicos'));
                 break;
             }
@@ -130,7 +130,7 @@ class ConsultaController extends Controller
         $consulta = Consulta::find($id);
         $consulta->delete();
         $medicos = User::where('work_area','Hospital')->get();
-        return redirect()->back()->with('msg','Consulta eliminada correctamente');
+        return redirect()->route('consultas.index')->with('msg','Consulta eliminada correctamente');
     }
 
     public function filterDate(Request $request)

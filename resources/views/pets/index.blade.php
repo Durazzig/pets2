@@ -58,6 +58,7 @@
                     @endforeach
                 </tbody>
             </table>
+            {{$pets->links()}}
             @endif
         </div>
     </div>
