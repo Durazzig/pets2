@@ -44,7 +44,6 @@ class PermisoController extends Controller
             'turno' => 'required',
             'sustituto' => 'required',
             'tipo_permiso' => 'required',
-            'motivo' => 'required',
         ]);
         Permiso::create([
             'empleado'  => $request->input('empleado'),

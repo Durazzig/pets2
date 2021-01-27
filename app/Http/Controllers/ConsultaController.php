@@ -8,6 +8,8 @@ use Carbon\Carbon;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use App\Role;
+use DateInterval;
+use DateTime;
 
 
 class ConsultaController extends Controller
@@ -19,8 +21,9 @@ class ConsultaController extends Controller
      */
     public function index()
     {
+        $fecha = Carbon::now()->timezone('America/Mexico_City')->toDateString();
         $medicos = User::where('work_area','Hospital')->get();
-        $consultas = Consulta::whereDate('fecha', today())->paginate(10);
+        $consultas = Consulta::whereDate('fecha', $fecha)->paginate(10);
         return view('consultas.index',compact('consultas'))->with(compact('medicos'));
     }
 
@@ -31,7 +34,7 @@ class ConsultaController extends Controller
      */
     public function create()
     {
-        $fecha = Carbon::now()->toDateString();
+        $fecha = Carbon::now()->timezone('America/Mexico_City')->toDateString();
         $empleados = User::where('work_area','Hospital')->get();
         return view('consultas.create', compact('empleados'))->with(compact('fecha'));
     }
@@ -100,15 +103,15 @@ class ConsultaController extends Controller
             $consulta->hora_atencion = $hora;
             $consulta->save();
             $medicos = User::where('work_area','Hospital')->get();
-            return view('consultas.aprove',compact('consulta'))->with(compact('medicos'));
+            return redirect()->route('consultas.aprove',compact('consulta'))->with(compact('medicos'));
         }else{
             foreach($user[0]->roles as $role){
                 if($role->name == $role_admin->name)
                 {
                     $medicos = User::where('work_area','Hospital')->get();
-                    return view('consultas.aprove',compact('consulta'))->with(compact('medicos'));
+                    return redirect()->route('consultas.aprove',compact('consulta'))->with(compact('medicos'));
                 }else{
-                    return view('errors.not_authorized_action');
+                    return redirect()->route('errors.not_authorized_action');
                 }
             }
         }
@@ -138,11 +141,9 @@ class ConsultaController extends Controller
                 $consulta->raza = $request->input('raza'); 
                 $consulta->servicio = $request->input('servicio'); 
                 $consulta->save();
-                //$consulta = $request->except('_token');
-                //Consulta::where('id','=',$id)->update($consulta);
                 $medicos = User::where('work_area','Hospital')->get();
                 $consultas = Consulta::paginate(5);
-                return view('consultas.index',compact('consultas'))->with(compact('medicos'));
+                return redirect()->route('consultas.index',compact('consultas'))->with(compact('medicos'));
                 break;
             
             case 'guardar':
@@ -150,7 +151,7 @@ class ConsultaController extends Controller
                 $consulta = $request->only('medico_id','propietario','raza','edad','peso','mascota','servicio');
                 Consulta::where('id','=',$id)->update($consulta);
                 $consultas = Consulta::paginate(5);
-                return view('consultas.index',compact('consultas'))->with(compact('medicos'));
+                return redirect()->route('consultas.index',compact('consultas'))->with(compact('medicos'));
                 break;
             }
     }
@@ -181,49 +182,126 @@ class ConsultaController extends Controller
                 $medico = $request -> input('medico_id');
                 $medicos = User::where('work_area','hospital')->get();
                 $consultas = Consulta::where('medico_id',$medico)->whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->paginate(10);
-                return view('consultas.index', [
-                    'consultas' => $consultas,
-                    'medicos' => $medicos,
-                ]);
+                return view('consultas.index')->with(compact('medicos'))->with(compact('consultas'));
             }
             else
             {
                 $medicos = User::all();
                 $consultas = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->paginate(10);
-                return view('consultas.index', [
-                    'consultas' => $consultas,
-                    'medicos' => $medicos,
-                ]);
+                return view('consultas.index')->with(compact('medicos'))->with(compact('consultas'));
             }
             break;
 
         case 'imprimir':
             if($selectValue == 'todos')
             {
+                $fechaT = Carbon::now()->toDateString();
+                $fecha = Carbon::parse($fechaT);
+                $date = $fecha->locale();
+
                 $lista = array();
+
+                $noConsultas = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('servicio','Consulta')->count();
+                $noServicesTotal = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->count();
+                $maxServicesTotal = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->min('servicio');
+                $minServicesTotal = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->max('servicio');
+
+                $fecha2 = Carbon::parse($fecha_final);
+                $fecha1 = Carbon::parse($fecha_inicial);
+                $dias = $fecha2->diffindays($fecha1);
+                $promedioConsultas = array();
+                $promedioServiciosGenerales = array();
+                for($i=0; $i<=$dias;$i++)
+                {
+                    $fechaPivote=new DateTime($fecha_inicial);
+                    $intervalo = new DateInterval('P'.$i.'D');
+                    $fechaPivote->add($intervalo);
+                    $promedioConsultas[] = Consulta::whereDate('fecha',$fechaPivote)->where('servicio','LIKE','%Consulta%')->count();   
+                    $promedioServiciosGenerales[] = Consulta::whereDate('fecha',$fechaPivote)->count();
+                }
+                $contador=0;
+                $totalConsultas=0;
+                $totalServicios=0;
+                for($j=0;$j<count($promedioConsultas);$j++)
+                {
+                    //if($promedioConsultas[$j]!='0')
+                    //{
+                        $totalConsultas = $totalConsultas + intval($promedioConsultas[$j]);
+                        $totalServicios = $totalServicios + intval($promedioServiciosGenerales[$j]);
+                        $contador++;
+                    //}
+                }
+                //$promConPD = $total / $contador;
+                $promConPD = $totalConsultas / $contador;
+                $promServPD = $totalServicios / $contador;
                 $medicos = Consulta::distinct('medico_id')->get('medico_id');
                 foreach($medicos as $medico){
-                    $noConsultas = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('medico_id',$medico->medico_id)->count('medico_id');
+                    $noServices = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('medico_id',$medico->medico_id)->count('medico_id');
+                    $noCons = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('medico_id',$medico->medico_id)->where('servicio','LIKE','%Consulta%')->count('medico_id');
                     $medicosName = User::where('id',$medico->medico_id)->get('name');
                     $maxServices = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('medico_id',$medico->medico_id)->min('servicio');
                     $minServices = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('medico_id',$medico->medico_id)->max('servicio');
                     foreach($medicosName as $medicoName){
                         $lista[] = $medicoName->name;
                     }
-                    $lista[] = $noConsultas;
+                    $lista[] = $noServices;
+                    $lista[] = $noCons;
                     $lista[] = $maxServices;
                     $lista[] = $minServices;
                     
                 }
                 $wordTest = new \PhpOffice\PhpWord\PhpWord();
                 $newSection = $wordTest->addSection();
-                //for($i=o; i<$lista.lenght; i+=4){
 
-                //}
-                $part1 = "Nombre del médico" . $lista[0];
+                $fontStyle = new \PhpOffice\PhpWord\Style\Font();
+                $fontStyle->setBold(true);
+                $fontStyle->setName('Arial');
+                $fontStyle->setSize(22);
+        
+                $subtitule = new \PhpOffice\PhpWord\Style\Font();
+                $subtitule->setBold(true);
+                $subtitule->setName('Arial');
+                $subtitule->setSize(12);
+        
+                $text =  new \PhpOffice\PhpWord\Style\Font();
+                $text->setName('Arial');
+                $text->setSize(11);
+
+                $parts = array();
+                for($i=0; $i<count($lista); $i+=5){
+                    $parts[] = "Nombre del médico: " . $lista[$i];
+                    $parts[] = "Servicios Generales atendidos: ".$lista[$i+1];
+                    $parts[] = "Consultas atendidas: ".$lista[$i+2];
+                    $parts[] = "Servicio más solicitado: ".$lista[$i+3];
+                    $parts[] = "Servicio menos solicitado: ".$lista[$i+4];
+                    $parts[] = "__________________________________________________________________";
+                }
+                $partHead = "                  Reporte de servicios médicos";
+                $partFech = " Periodo: ".$fecha_inicial . " - ".$fecha_final;
                 $mytime = Carbon::now()->timezone('America/Mexico_City')->toDateString();
-                $fech = "                                                                                     Tuxtla Gutiérrez, Chis. "; 
-                $newSection->addText($part1);
+                $fech = "                                                                     Tuxtla Gutiérrez, Chis. ".$fecha->monthName." ".$fecha->day.", ".$fecha->year; 
+                $infoG1 = "Total de consultas en este periodo: ".$noConsultas;
+                $infoG2 = "Total de servicios en general brindados: ".$noServicesTotal;
+                $infoG3 = "Promedio de consultas atendidas por día: ".$promConPD;
+                $infoG4 = "Promedio de servicios atendidos por día: ".$promServPD;
+                $infoG5 = "Servicio más solicitado: ".$maxServicesTotal;
+                $infoG6 = "Servicio menos solicitado: ".$minServicesTotal;
+                $saltoline = "____________________________________________________________________";
+
+                $newSection->addText($fech, $subtitule);
+                $newSection->addText($partHead, $fontStyle);
+                $newSection->addText($partFech, $subtitule);
+                $newSection->addText($infoG1,$text);
+                $newSection->addText($infoG2,$text);
+                $newSection->addText($infoG3,$text);
+                $newSection->addText($infoG4,$text);
+                $newSection->addText($infoG5,$text);
+                $newSection->addText($infoG6,$text);
+                $newSection->addText($saltoline,$text);
+                for($i=0; $i<count($parts); $i++){
+                    $newSection->addText($parts[$i], $text);
+                }
+
                 $objectWriter = \PhpOffice\PhpWord\IOFactory::createWriter($wordTest, "Word2007");
                 try{
                     $objectWriter->save(storage_path("Reporte" . $mytime .".docx"));
@@ -233,8 +311,96 @@ class ConsultaController extends Controller
                 return response()->download(storage_path("Reporte" . $mytime . ".docx"));
                 //dd($lista);
             }else{
-                echo 'Hola';
+                $fechaT = Carbon::now()->toDateString();
+                $fecha = Carbon::parse($fechaT);
+                $date = $fecha->locale();
 
+                $noConsultas = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('medico_id',$request->input('medico_id'))->where('servicio','LIKE','%Consulta%')->count('medico_id');
+                $medicosName = User::where('id',$request->input('medico_id'))->get('name');
+                foreach($medicosName as $medicoName){
+                    $MedicoNombre = $medicoName->name;
+                }
+                $maxServices = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('medico_id',$request->input('medico_id'))->min('servicio');
+                $minServices = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('medico_id',$request->input('medico_id'))->max('servicio');
+                $noServGenerales = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('medico_id',$request->input('medico_id'))->count('medico_id');
+
+                $fecha2 = Carbon::parse($fecha_final);
+                $fecha1 = Carbon::parse($fecha_inicial);
+                $dias = $fecha2->diffindays($fecha1);
+                $promedioConsultas = array();
+                $promedioServiciosGenerales = array();
+                for($i=0; $i<=$dias;$i++)
+                {
+                    $fechaPivote=new DateTime($fecha_inicial);
+                    $intervalo = new DateInterval('P'.$i.'D');
+                    $fechaPivote->add($intervalo);
+                    $promedioConsultas[] = Consulta::whereDate('fecha',$fechaPivote)->where('medico_id',$request->input('medico_id'))->where('servicio','LIKE','%Consulta%')->count('medico_id');   
+                    $promedioServiciosGenerales[] = Consulta::whereDate('fecha',$fechaPivote)->where('medico_id',$request->input('medico_id'))->count('medico_id');
+                }
+                $contador=0;
+                $totalConsultas=0;
+                $totalServicios=0;
+                for($j=0;$j<count($promedioConsultas);$j++)
+                {
+                    //if($promedioConsultas[$j]!='0')
+                    //{
+                        $totalConsultas = $totalConsultas + intval($promedioConsultas[$j]);
+                        $totalServicios = $totalServicios + intval($promedioServiciosGenerales[$j]);
+                        $contador++;
+                    //}
+                }
+                //$promConPD = $total / $contador;
+                $promConPD = $totalConsultas / $contador;
+                $promServPD = $totalServicios / $contador;
+
+                $wordTest = new \PhpOffice\PhpWord\PhpWord();
+                $newSection = $wordTest->addSection();
+
+                $fontStyle = new \PhpOffice\PhpWord\Style\Font();
+                $fontStyle->setBold(true);
+                $fontStyle->setName('Arial');
+                $fontStyle->setSize(22);
+        
+                $subtitule = new \PhpOffice\PhpWord\Style\Font();
+                $subtitule->setBold(true);
+                $subtitule->setName('Arial');
+                $subtitule->setSize(12);
+        
+                $text =  new \PhpOffice\PhpWord\Style\Font();
+                $text->setName('Arial');
+                $text->setSize(12);
+
+                $partHead = "                  Reporte de servicios médicos";
+                $partFech = " Periodo: ".$fecha_inicial . " - ".$fecha_final;
+                $mytime = Carbon::now()->timezone('America/Mexico_City')->toDateString();
+                $fech = "                                                                     Tuxtla Gutiérrez, Chis. ".$fecha->monthName." ".$fecha->day.", ".$fecha->year; 
+                $saltoline = "__________________________________________________________________";
+                $infoG1 = "Medico: ".$MedicoNombre;
+                $infoG2 = "No. de Consultas Atendidas: ".$noConsultas;
+                $infoG3 = "No. de Servicios Generales: ".$noServGenerales;
+                $infoG4 = "Máximo servicio solicitado: ".$maxServices;
+                $infoG5 = "Mínimo servicio solicitado: ".$minServices;
+                $infoG6 = "Promedio de Consultas por día: ".$promConPD;
+                $infoG7 = "Promedio de Servicios atendidos por día: ".$promServPD;
+                $newSection->addText($fech, $subtitule);
+                $newSection->addText($partHead, $fontStyle);
+                $newSection->addText($partFech, $subtitule);
+                $newSection->addText($saltoline,$text);
+                $newSection->addText($infoG1,$subtitule);
+                $newSection->addText($infoG2,$text);
+                $newSection->addText($infoG3,$text);
+                $newSection->addText($infoG4,$text);
+                $newSection->addText($infoG5,$text);
+                $newSection->addText($infoG6,$text);
+                $newSection->addText($infoG7,$text);
+                $newSection->addText($saltoline,$text);
+                $objectWriter = \PhpOffice\PhpWord\IOFactory::createWriter($wordTest, "Word2007");
+                try{
+                    $objectWriter->save(storage_path("Reporte" . $mytime .".docx"));
+                }catch(Exception $e){
+        
+                }
+                return response()->download(storage_path("Reporte" . $mytime . ".docx"));
             }
            
 

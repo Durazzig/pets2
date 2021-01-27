@@ -16,7 +16,8 @@ class ConsultasRecientes extends AbstractWidget
 
     public function run()
     {
-        $consultas = Consulta::whereDate('fecha', today())->where('finalizado',0)->paginate(5);
+        $fecha = Carbon::now()->timezone('America/Mexico_City')->toDateString();
+        $consultas = Consulta::whereDate('fecha', $fecha)->where('finalizado',0)->paginate(5);
         return view('widgets.consultas_recientes', [
             'config' => $this->config,
             'consultas' => $consultas,

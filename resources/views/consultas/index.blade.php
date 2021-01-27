@@ -25,16 +25,16 @@
                         <form action="{{ route('consultas.filterDate') }}" method="POST" class="row">
                             @csrf
                             <div class="col-md-4">
-                                <input type="date" name="desde" class="form-control">
+                                <input type="date" name="desde" class="form-control" required>
                             </div>
                             <div class="col-md-4">
-                                <input type="date" name="hasta" class="form-control">
+                                <input type="date" name="hasta" class="form-control" required>
                             </div>
                             <div class="col-md-3">
-                                <select class="custom-select" name="medico_id" id="">
+                                <select class="custom-select" name="medico_id" id="" required>
                                     <option value="todos">Todos</option>
                                     @foreach($medicos as $medico)
-                                        <option value="{{$medico->id}}">{{$medico->empleado}}</option>
+                                        <option value="{{$medico->id}}">{{$medico->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
