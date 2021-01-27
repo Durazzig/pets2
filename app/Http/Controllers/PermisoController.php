@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Permiso;
+use App\User;
 use Illuminate\Http\Request;
 
 class PermisoController extends Controller
@@ -15,7 +16,8 @@ class PermisoController extends Controller
     public function index()
     {
         $permisos = Permiso::all();
-        return view('permisos.index', compact('permisos'));
+        $empleados = User::all();
+        return view('permisos.index', compact('permisos'))->with(compact('empleados'));
     }
 
     /**
@@ -25,7 +27,8 @@ class PermisoController extends Controller
      */
     public function create()
     {
-        return view('permisos.create');
+        $empleados = User::all();
+        return view('permisos.create',compact('empleados'));
     }
 
     /**
@@ -79,8 +82,9 @@ class PermisoController extends Controller
      */
     public function edit($id)
     {
-        $permisos = Permiso::find($id);
-        return view('permisos.edit', compact('permisos'));
+        $empleados = User::all();
+        $permiso = Permiso::find($id);
+        return view('permisos.edit', compact('permiso'))->with(compact('empleados'));
     }
 
     /**

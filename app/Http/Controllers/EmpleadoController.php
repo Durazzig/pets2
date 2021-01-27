@@ -56,8 +56,20 @@ class EmpleadoController extends Controller
     public function destroy($id)
     {
         $empleado = User::find($id);
-        $empleado->delete();
-        return redirect()->back()->with('msg','Empleado eliminado correctamente');
+        if($empleado->consultas()->count())
+        {
+            return redirect()->back()->with('msg','No puedes borrar este empleado, hay una consulta relacionada');
+        }
+        else if($empleado->permisos()->count()){
+            return redirect()->back()->with('msg','No puedes borrar este empleado, hay un permiso relacionada');
+        }
+        else if($empleado->facturas()->count()){
+            return redirect()->back()->with('msg','No puedes borrar este empleado, hay una factura relacionada');
+        }
+        else{
+            $empleado->delete();
+            return redirect()->back()->with('msg','Empleado eliminado correctamente');
+        }
     }
     
     public function getEmpleados(Request $request)

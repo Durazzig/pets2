@@ -53,7 +53,7 @@
                             <form action="{{route('owners.delete',$owner->id)}}" method="POST">
 								{{method_field('DELETE')}}
 								@csrf
-								<button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+								<button type="submit" onclick="return confirm('¿Seguro que deseas eliminarlo?')" class="btn btn-danger btn-sm">Eliminar</button>
 							</form>
                         </td>
                     </tr>

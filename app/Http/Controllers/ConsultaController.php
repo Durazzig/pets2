@@ -36,7 +36,7 @@ class ConsultaController extends Controller
             'propietario' => 'required',
             'mascota' => 'required',
             'peso' => 'required|numeric',
-            'edad' => 'required|date',
+            'edad' => 'required',
             'raza' => 'required',
             'servicio' => 'required',
         ]);
@@ -70,7 +70,7 @@ class ConsultaController extends Controller
             $consulta->hora_atencion = $hora;
             $consulta->save();
             $medicos = User::where('work_area','Hospital')->get();
-            return redirect()->route('consultas.aprove',compact('consulta'))->with(compact('medicos'));
+            return view('consultas.aprove',compact('consulta'))->with(compact('medicos'));
         }else{
             foreach($user[0]->roles as $role){
                 if($role->name == $role_admin->name)

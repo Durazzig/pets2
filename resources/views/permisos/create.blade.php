@@ -23,12 +23,11 @@
                     <div class="form-group form-row">
                         <div class="col-md-6">
                             <label for="name">{{ __('Empleado') }}</label>
-                            <input type="text" name="empleado" id="name" class="form-control @error('name') is-invalid @enderror">
-                            @error('name')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                            <select class="custom-select" name="empleado">
+                                @foreach($empleados as $empleado)
+                                    <option value="{{$empleado->id}}">{{$empleado->name}}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="col-md-6">
                             <label for="phone">{{ __('Area') }}</label>
@@ -48,20 +47,10 @@
                         <div class="col-md-6">
                             <label for="name">{{ __('Fecha de permiso (Desde)') }}</label>
                             <input type="date" name="fecha_permiso" id="name" class="form-control @error('name') is-invalid @enderror">
-                            @error('name')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
                         </div>
                         <div class="col-md-6">
                             <label for="name">{{ __('Fecha de permiso (Hasta)') }}</label>
                             <input type="date" name="fecha_permiso_final" id="name" class="form-control @error('name') is-invalid @enderror">
-                            @error('name')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
                         </div>
                     </div>
                     <div class="form-group form-row">
@@ -73,20 +62,14 @@
                                 <option value="Nocturno">Nocturno</option>
                                 <option value="Mixto">Mixto</option>
                             </select>
-                            @error('phone')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
                         </div>
                         <div class="col-md-6">
                             <label for="name">{{ __('Cubre') }}</label>
-                            <input type="text" name="sustituto" id="name" class="form-control @error('name') is-invalid @enderror">
-                            @error('name')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                            <select class="custom-select" name="sustituto">
+                                @foreach($empleados as $empleado)
+                                    <option value="{{$empleado->id}}">{{$empleado->name}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
@@ -97,11 +80,6 @@
                                 <option value="Incapacidad">Incapacidad</option>
                                 <option value="Cambio">Cambio de turno</option>
                             </select>
-                            @error('name')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
                     </div>
                     <div class="form-group">
                         <label for="name">{{ __('Motivo') }}</label>
@@ -112,8 +90,6 @@
                         <button type="submit" class="btn btn-success btn-lg btn-block">{{ __('Anadir Permiso') }}</button>
                     </div>
                 </form>
-                @else
-                    <strong>Se ha detetectado que no te has logueado -> Por favor inicia sesion</strong>
                 @endif
             </div>
         </div>

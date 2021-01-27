@@ -18,77 +18,71 @@
             </div>
             <div class="card-body">
                 @if(Auth::user())
-                <form action="{{ route('permisos.update',$permisos->id) }}" method="POST">
+                <form action="{{ route('permisos.update',$permiso->id) }}" method="POST">
                     @csrf
                     <div class="form-group form-row">
                         <div class="col-md-6">
                             <label for="name">{{ __('Empleado') }}</label>
-                            <input type="text" name="empleado" id="name" value="{{$permisos->empleado}}" class="form-control @error('name') is-invalid @enderror">
-                            @error('name')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                            <select class="custom-select" name="empleado">
+                                @foreach($empleados as $empleado)
+                                    <option value="{{$empleado->id}}">{{$empleado->name}}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="col-md-6">
                             <label for="phone">{{ __('Area') }}</label>
-                            <input name="area" value="{{$permisos->area}}" class="form-control @error('name') is-invalid @enderror">
+                            <select name="area" class="form-control @error('name') is-invalid @enderror">
+                                <option value="Caja">Caja</option>
+                                <option value="Recepcion">Recepción</option>
+                                <option value="Hospital">Hospital</option>
+                                <option value="Laboratorio">Laboratorio</option>
+                                <option value="Mantenimiento">Mantenimiento</option>
+                                <option value="Estetica">Estética</option>
+                                <option value="Gerencia">Gerencia</option>
+                                <option value="Quirofano">Quirófano</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group form-row">
                         <div class="col-md-6">
                             <label for="name">{{ __('Fecha de permiso (Desde)') }}</label>
-                            <input type="date" name="fecha_permiso" id="name" value="{{$permisos->fecha_permiso}}" class="form-control @error('name') is-invalid @enderror">
-                            @error('name')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                            <input type="date" name="fecha_permiso" id="name" value="{{$permiso->fecha_permiso}}" class="form-control @error('name') is-invalid @enderror">
                         </div>
                         <div class="col-md-6">
                             <label for="name">{{ __('Fecha de permiso (Hasta)') }}</label>
-                            <input type="date" name="fecha_permiso_final" value="{{$permisos->fecha_permiso_final}}"  id="name" class="form-control @error('name') is-invalid @enderror">
-                            @error('name')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                            <input type="date" name="fecha_permiso_final" value="{{$permiso->fecha_permiso_final}}"  id="name" class="form-control @error('name') is-invalid @enderror">
                         </div>
                     </div>
                     <div class="form-group form-row">
                         <div class="col-md-6">
                                 <label for="phone">{{ __('Turno de permiso') }}</label>
-                                <input name="turno" value="{{$permisos->turno}}" class="form-control @error('name') is-invalid @enderror" {{$permisos->turno}}>
-                                @error('phone')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
+                                <select name="turno" class="form-control @error('name') is-invalid @enderror">
+                                    <option value="{{$permiso->turno}}">{{$permiso->turno}}</option>
+                                    <option value="Matutino">Matutino</option>
+                                    <option value="Vespertino">Vespertino</option>
+                                    <option value="Nocturno">Nocturno</option>
+                                    <option value="Mixto">Mixto</option>
+                                </select>
                             </div>
                             <div class="col-md-6">
                                 <label for="name">{{ __('Cubre') }}</label>
-                                <input type="text" name="sustituto" id="name" value="{{$permisos->sustituto}}" class="form-control @error('name') is-invalid @enderror">
-                                @error('name')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
+                                <select class="custom-select" name="sustituto">
+                                    <option value="{{$permiso->sustituto}}">{{$permiso->sustitutos->name}}</option>
+                                    @foreach($empleados as $empleado)
+                                        <option value="{{$empleado->id}}">{{$empleado->name}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                     </div>
                     <div class="form-group form-row">
                         <div class="col-md-6">
                             <label for="name">{{ __('Tipo de permiso') }}</label>
-                                <input name="tipo_permiso" value="{{$permisos->tipo_permiso}}" class="form-control @error('name') is-invalid @enderror">
-                                @error('name')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
+                                <input name="tipo_permiso" value="{{$permiso->tipo_permiso}}" class="form-control @error('name') is-invalid @enderror">
                         </div>
 
                         <div class="col-md-6">
                         <label for="name">{{ __('Motivo') }}</label>
-                            <input name="motivo" value="{{$permisos->motivo}}" class="form-control @error('name') is-invalid @enderror" disabled>
+                            <input name="motivo" value="{{$permiso->motivo}}" class="form-control @error('name') is-invalid @enderror" disabled>
                         </div>
                     </div>
                     <div class="form-group form-row">
@@ -104,8 +98,6 @@
                     </div>   
                     </div>
                 </form>
-                @else
-                    <strong>Se ha detetectado que no te has logueado -> Por favor inicia sesion</strong>
                 @endif
             </div>
         </div>

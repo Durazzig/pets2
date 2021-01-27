@@ -11,7 +11,7 @@ class PetController extends Controller
     
     public function index()
     {
-        $pets = Pet::all();
+        $pets = Pet::orderBy('owner_id')->get();
         return view('pets.index', compact('pets'));
     }
 
@@ -121,6 +121,6 @@ class PetController extends Controller
     {
         $pet = Pet::find($id);
         $pet->delete();
-        return redirect()->back();
+        return redirect()->back()->with('msg','Mascota eliminada correctamente');
     }
 }

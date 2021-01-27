@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="row">
-    <div class="col-md-8 mx-auto">
+    <div class="col-md-10 mx-auto">
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
@@ -40,11 +40,11 @@
                     @foreach ($permisos as $permiso)
                     <tr>
                         <td>{{ $permiso->id }}</td>
-                        <td>{{ $permiso->empleado }}</td>
+                        <td>{{ $permiso->empleados->name }}</td>
                         <td>{{ $permiso->area }}</td>
                         <td>{{ $permiso->fecha_permiso }}</td>
                         <td>{{ $permiso->turno }}</td>
-                        <td>{{ $permiso->sustituto }}</td>
+                        <td>{{ $permiso->sustitutos->name }}</td>
                         <td>{{ $permiso->tipo_permiso }}</td>
                         <td><input type="checkbox" name="checkbox" disabled {{ $permiso->aprobado }} ></td>
                         <td>

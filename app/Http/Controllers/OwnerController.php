@@ -61,8 +61,14 @@ class OwnerController extends Controller
     public function destroy($id)
     {
         $owner = Owner::find($id);
-        $owner->delete();
-        return redirect()->back()->with('msg','Propietario eliminado correctamente');
+        if($owner->pets()->count())
+        {
+            return redirect()->back()->with('msg','No puedes borrar este propietario, hay una mascota relacionada');
+        }
+        else{
+            $owner->delete();
+            return redirect()->back()->with('msg','Propietario eliminado correctamente');
+        }
     }
 
     public function pets($id){

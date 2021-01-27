@@ -45,7 +45,7 @@
                             <form action="{{route('providers.delete',$provider->id)}}" method="POST">
     							{{method_field('DELETE')}}
     							@csrf
-    							<button type="submit" class="btn btn-danger btn-sm">Borrar</button>
+    							<button type="submit" onclick="return confirm('¿Seguro que deseas eliminarlo?')" class="btn btn-danger btn-sm">Borrar</button>
     						</form>
                         </td>
                     </tr>

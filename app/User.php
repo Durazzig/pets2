@@ -12,7 +12,7 @@ class User extends Authenticatable
 
     public function consultas()
     {
-        return $this->hasMany('App\Consulta');
+        return $this->hasMany('App\Consulta','medico_id');
     }
 
     public function roles()
@@ -20,6 +20,10 @@ class User extends Authenticatable
         return $this
             ->belongsToMany('App\Role')
             ->withTimestamps();
+    }
+
+    public function permisos(){
+        return $this->hasMany('App\Permiso','empleado');
     }
 
     /**
@@ -82,6 +86,6 @@ class User extends Authenticatable
     }
 
     public function facturas(){
-        return $this->hasMany('App\Bill');
+        return $this->hasMany('App\Bill','empleado');
     }
 }
