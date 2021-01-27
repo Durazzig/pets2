@@ -20,8 +20,8 @@
                     
                 </div>
             </div>
-            <div class="card-header">
-                <div class="row">
+            <section class="card-header">
+                <div class="row col-md-12">
                         <form action="{{ route('bills.filterDate') }}" method="POST" class="row" enctype="multipart/form-data">
                             @csrf
                             <div class="col-md-4">
@@ -43,59 +43,57 @@
                             </div>
                         </form>
                 </div>
-            </div>
-            <div class="card-body">
+            </section>
             @if(session('msg'))
                 <div class="alert alert-warning" align="center">{{session('msg')}}</div>
             @endif
                 @if(Auth::user())
-                <table class="table table-hover table-responsive-lg fixed-table-body">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">{{ __('Proveedor') }}</th>
-                            <th scope="col">{{ __('Folio') }}</th>
-                            <th scope="col">{{ __('Fecha') }}</th>
-                            <th scope="col">{{ __('Fecha de Entrega') }}</th>
-                            <th scope="col">{{ __('Monto') }}</th>
-                            <th scope="col">{{ __('Entrega') }}</th>
-                            <th scope="col">{{ __('Imagen') }}</th>
-                            <th scope="col">{{ __('Editar') }}</th>
-                            <th scope="col">{{ __('Eliminar') }}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($bills as $bill)
-                        <tr>
-                            <td>{{ $bill->id }}</td>
-                            <td>{{ $bill->provider->name }}</td>
-                            <td>{{ $bill->folio }}</td>
-                            <td>{{ $bill->fecha }}</td>
-                            <td>{{ $bill->fecha_entrega }}</td>
-                            <td>{{ $bill->monto }}</td>
-                            <td>{{ $bill->empleados->name }}</td>
-                            <td><img src="{{asset('uploads/facturas/' . $bill->imagen)}}" alt="image" height="50px" width="75px"></td>
-                            <td>
-                                <a href="{{url('/facturas/edit',$bill->id)}}" class="btn btn-outline-secondary btn-sm">
-                                    Editar
-                                </a>
-                            </td>
-                            <td>
-                                <form action="{{route('bills.destroy',$bill->id)}}" method="POST">
-    								{{method_field('DELETE')}}
-    								@csrf
-    								<button type="submit" onclick="return confirm('¿Seguro que deseas eliminarlo?')" class="btn btn-danger btn-sm">Eliminar</button>
-    							</form>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-                {{$bills->links()}}
-                @else
-                    <strong>Se ha detetectado que no te has logueado -> Por favor inicia sesion</strong>
-                @endif
-            </div>
+            <table class="table table-hover table-responsive-lg table-striped">
+                <thead class="bg-primary text-white">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">{{ __('Proveedor') }}</th>
+                        <th scope="col">{{ __('Folio') }}</th>
+                        <th scope="col">{{ __('Fecha') }}</th>
+                        <th scope="col">{{ __('Fecha de Entrega') }}</th>
+                        <th scope="col">{{ __('Monto') }}</th>
+                        <th scope="col">{{ __('Entrega') }}</th>
+                        <th scope="col">{{ __('Imagen') }}</th>
+                        <th scope="col">{{ __('Editar') }}</th>
+                        <th scope="col">{{ __('Eliminar') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($bills as $bill)
+                    <tr>
+                        <td>{{ $bill->id }}</td>
+                        <td>{{ $bill->provider->name }}</td>
+                        <td>{{ $bill->folio }}</td>
+                        <td>{{ $bill->fecha }}</td>
+                        <td>{{ $bill->fecha_entrega }}</td>
+                        <td>{{ $bill->monto }}</td>
+                        <td>{{ $bill->empleados->name }}</td>
+                        <td><img src="{{asset('uploads/facturas/' . $bill->imagen)}}" alt="image" height="50px" width="75px"></td>
+                        <td>
+                            <a href="{{url('/facturas/edit',$bill->id)}}" class="btn btn-outline-secondary btn-sm">
+                                Editar
+                            </a>
+                        </td>
+                        <td>
+                            <form action="{{route('bills.destroy',$bill->id)}}" method="POST">
+    							{{method_field('DELETE')}}
+    							@csrf
+    							<button type="submit" onclick="return confirm('¿Seguro que deseas eliminarlo?')" class="btn btn-danger btn-sm">Eliminar</button>
+    						</form>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            {{$bills->links()}}
+            @else
+            <strong>Se ha detetectado que no te has logueado -> Por favor inicia sesion</strong>
+            @endif
         </div>
     </div>
 </div>
