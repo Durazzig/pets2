@@ -51,6 +51,7 @@ Route::any('/permisos/store', 'PermisoController@store')->name('permisos.store')
 Route::any('/permisos/edit/{id}', 'PermisoController@edit')->name('permisos.edit')->middleware('auth','role:admin');
 Route::any('/permisos/update{id}', 'PermisoController@update')->name('permisos.update')->middleware('auth','role:admin');
 Route::delete('/permisos/delete/{id}', 'PermisoController@destroy')->name('permisos.delete')->middleware('auth','role:admin');
+Route::any('/permisos/filterByDate', 'PermisoController@filterDate')->name('permisos.filterDate')->middleware('auth','role:admin cajero medico_consulta recepcionista');
 
 Route::get('/pets', 'PetController@index')->name('pets.index')->middleware('auth');
 Route::get('/pets/new', 'PetController@create')->name('pets.create')->middleware('auth');

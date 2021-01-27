@@ -16,6 +16,33 @@
                     </div>
                 </div>
             </div>
+            <div class="card-header">
+                    <div class="row">
+                        <form action="{{ route('permisos.filterDate') }}" method="POST" class="row">
+                            @csrf
+                            <div class="col-md-4">
+                                <input type="date" name="desde" class="form-control" required>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="date" name="hasta" class="form-control" required>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="custom-select" name="empleado_id" id="" required>
+                                    <option value="todos">Todos</option>
+                                    @foreach($empleados as $empleado)
+                                        <option value="{{$empleado->id}}">{{$empleado->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <button type="submit" name="action" value="filtrar" class="btn btn-success btn-md btn-block">{{ __('Buscar') }}</button>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <button type="submit" name="action" value="imprimir" class="btn btn-success btn-md btn-block">{{ __('Imprimir') }}</button>
+                            </div>
+                        </form>
+                    </div>
+            </div>
             @if(session('msg'))
                 <div class="alert alert-warning" align="center">{{session('msg')}}</div>
             @endif

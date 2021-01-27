@@ -32,7 +32,7 @@
                         </div>
                         <div class="col-md-6">
                             <label for="phone">{{ __('Celular') }}</label>
-                            <input type="text" name="phone" id="phone" class="form-control @error('phone') is-invalid @enderror">
+                            <input type="tel" name="phone" id="phone" pattern="d{10}$" class="form-control @error('phone') is-invalid @enderror" required>
                             @error('phone')
                                 <div class="invalid-feedback">
                                     {{ $message }}
