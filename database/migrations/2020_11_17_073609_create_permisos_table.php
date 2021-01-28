@@ -23,7 +23,7 @@ class CreatePermisosTable extends Migration
             $table->string('sustituto');
             $table->string('tipo_permiso');
             $table->string('aprobado')->default("nochecked");
-            $table->string('motivo');
+            $table->string('motivo')->nullable();
             $table->timestamps();
         });
     }

@@ -15,7 +15,7 @@ class PermisoController extends Controller
      */
     public function index()
     {
-        $permisos = Permiso::all();
+        $permisos = Permiso::paginate(10);
         $empleados = User::all();
         return view('permisos.index', compact('permisos'))->with(compact('empleados'));
     }

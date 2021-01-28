@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Permiso;
+use App\User;
 use Carbon\Carbon;
 
 class document extends Controller
@@ -12,6 +13,8 @@ class document extends Controller
     public function createWordDoc($id){
 
         $permisos = Permiso::find($id);
+        $empleado = User::where('id',$permisos->empleado)->first();
+        $sustituto = User::where('id',$permisos->sustituto)->first();
 
         $mytime = Carbon::now()->timezone('America/Mexico_City')->toDateString();
         $fechaT = Carbon::now()->toDateString();
@@ -67,11 +70,11 @@ class document extends Controller
             $part411 = "Por este conducto solicito su autorización para realizar un cambio de turno en la siguiente fecha ". $fechaAux->day . " de " . $fechaAux->monthName . " del " . $fechaAux->year ." debido a una incapacidad.";
             $part422 = "Por este conducto solicito su autorización para realizar un cambio de turno en las siguientes fechas: ". $fechaAux->day . " de " . $fechaAux->monthName . " del " . $fechaAux2->year . " al " . $fechaAux2->day . " de " . $fechaAux2->monthName . " del " . $fechaAux2->year . " debido a una incapacidad.";
 
-            $part5 = "Empleado: " . $permisos->empleado . "                                         Área: " . $permisos->area . "                                 Turno: " . $permisos->turno ;
+            $part5 = "Empleado: " . $empleado->name . "                                         Área: " . $permisos->area . "                                 Turno: " . $permisos->turno ;
             $firma = "Firma: __________________________________";
             $part6 = "Se anexa justificante.";
             $part7 = "El compañero que realizará el cambio de turno conmigo es: ";
-            $part8 = "Quien cubre: " . $permisos->sustituto;
+            $part8 = "Quien cubre: " . $sustituto->name;
             $part9 = "Sin más que agregar, agradezco de antemano, esperando contar con su aprobación.";
             $part10 = "                                                                                                                         Vo  Bo";
             $part11 = ".                                                                      ____________________________________";
@@ -146,11 +149,11 @@ class document extends Controller
             $part41 = "Por este conducto solicito su autorización para faltar a mis labores al hacer uso de mis vacaciones en las siguientes fechas: ". $fechaAux->day . " de " . $fechaAux->monthName . " del " . $fechaAux2->year . " al " . $fechaAux2->day . " de " . $fechaAux2->monthName . " del " . $fechaAux2->year;
             $part42 = "Por este conducto solicito su autorización para realizar un cambio de turno en las siguientes fechas: ". $fechaAux->day . " de " . $fechaAux->monthName . " del " . $fechaAux2->year . " al " . $fechaAux2->day . " de " . $fechaAux2->monthName . " del " . $fechaAux2->year;
            
-            $part5 = "Empleado: " . $permisos->empleado . "                                         Área: " . $permisos->area . "                                 Turno: " . $permisos->turno ;
+            $part5 = "Empleado: " . $empleado->name . "                                         Área: " . $permisos->area . "                                 Turno: " . $permisos->turno ;
             $firma = "Firma: __________________________________";
             $part6 = "Se anexa justificante.";
             $part7 = "El compañero que realizará el cambio de turno conmigo es: ";
-            $part8 = "Quien cubre: " . $permisos->sustituto;
+            $part8 = "Quien cubre: " . $sustituto->name;
             $part9 = "Sin más que agregar, agradezco de antemano, esperando contar con su aprobación.";
             $part10 = "                                                                                                                         Vo  Bo";
             $part11 = ".                                                                      ____________________________________";
