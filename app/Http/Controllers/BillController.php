@@ -72,6 +72,9 @@ class BillController extends Controller
         $fecha_inicial = $request -> input('desde');
         $fecha_final = $request -> input('hasta');
         $selectValue = $request -> input('provider_id');
+        if ($fecha_inicial == null) {
+            $fecha_inicial = Carbon::now()->toDateString();
+        }
         switch ($request->input('action')) {
             case 'filtrar':
                 if($selectValue != "todos")
@@ -92,7 +95,21 @@ class BillController extends Controller
                 }
                 break;
             case 'imprimir':
-                return Excel::download(new BillsExport,'facturas.xlsx');
+                if($selectValue != "todos")
+                {
+                    $provider = $request -> input('provider_id');
+                    $providers = Provider::all();
+                    $bills = Bill::where('provider_id',$provider)->whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->get();
+                    //dd($bills);
+                    return Excel::download(new BillsExport($bills),'facturas.xlsx');
+                }
+                else
+                {
+                    $providers = Provider::all();
+                    $bills = Bill::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->get();
+                    //dd($bills);
+                    return Excel::download(new BillsExport($bills),'facturas.xlsx');
+                }
                 break;
         }
         
