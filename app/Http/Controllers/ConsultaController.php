@@ -58,6 +58,42 @@ class ConsultaController extends Controller
 
         return redirect()->route('consultas.index');
     }
+    public function citar()
+    {
+        $fecha = Carbon::now()->timezone('America/Mexico_City')->toDateString();
+        $empleados = User::where('work_area','Hospital')->get();
+        return view('consultas.cita', compact('empleados'))->with(compact('fecha'));
+    }
+
+    public function storecita(Request $request)
+    {
+        $request->validate([
+            'fecha' => 'required',
+            'propietario' => 'required',
+            'hora_llegada' => 'required',
+            'mascota' => 'required',
+            'edad' => 'required',
+            'raza' => 'required',
+            'servicio' => 'required',
+        ]);
+        $existe = Consulta::where('medico_id',$request->input('medico_id'))->where('fecha',$request->input('fecha'))->exists();
+        if($existe){
+            return redirect()->route('consultas.citar')->with('msg','Elija una hora o fecha diferente');
+        }else{
+            Consulta::create([
+                'fecha' => $request->input('fecha'),
+                'medico_id'  => $request->input('medico_id'),
+                'hora_llegada' => $request->input('hora_llegada'),
+                'propietario' => $request->input('propietario'),
+                'mascota' => $request->input('mascota'),
+                'edad' => $request->input('edad'),
+                'raza' => $request->input('raza'),
+                'servicio' => $request->input('servicio'),
+            ]);
+    
+            return redirect()->route('consultas.index');
+        }
+    }
 
     public function edit($id)
     {

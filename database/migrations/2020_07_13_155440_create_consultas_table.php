@@ -22,7 +22,7 @@ class CreateConsultasTable extends Migration
             $table->string('hora_termino')->nullable();
             $table->string('propietario');
             $table->string('mascota');
-            $table->double('peso');
+            $table->double('peso')->nullable();
             $table->string('edad');
             $table->string('raza');
             $table->string('servicio');

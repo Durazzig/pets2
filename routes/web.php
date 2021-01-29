@@ -33,6 +33,8 @@ Route::any('/consultas/store', 'ConsultaController@store')->name('consultas.stor
 Route::any('/consultas/edit/{id}', 'ConsultaController@edit')->name('consultas.edit')->middleware('auth','role:admin cajero medico_consulta');
 Route::any('/consultas/update/{id}', 'ConsultaController@update')->name('consultas.update')->middleware('auth','role:admin cajero medico_consulta');
 Route::any('/consultas/filterByDate', 'ConsultaController@filterDate')->name('consultas.filterDate')->middleware('auth','role:admin cajero medico_consulta recepcionista');
+Route::any('/consultas/citar', 'ConsultaController@citar')->name('consultas.citar')->middleware('auth','role:admin cajero medico_consulta recepcionista');
+Route::any('/consultas/storecita', 'ConsultaController@storecita')->name('consultas.storecita')->middleware('auth','role:admin cajero recepcionista medico_consulta');
 Route::delete('/consultas/delete/{id}', 'ConsultaController@destroy')->name('consultas.delete')->middleware('auth','role:admin cajero');
 
 Route::get('/citas', 'CitaController@index')->name('citas.index')->middleware('auth');
@@ -46,6 +48,7 @@ Route::any('/owners/edit/{id}', 'OwnerController@edit')->name('owners.edit')->mi
 Route::any('/owners/update/{id}', 'OwnerController@update')->name('owners.update')->middleware('auth','role:admin recepcionista cajero medico_consulta');
 Route::any('/owners/pets/addPet/{id}', 'OwnerController@addOwnerPet')->name('owners.addPet')->middleware('auth','role:admin recepcionista cajero medico_consulta');
 Route::delete('/owners/delete/{id}', 'OwnerController@destroy')->name('owners.delete')->middleware('auth','role:admin');
+Route::any('/owners/filter', 'OwnerController@filter')->name('owners.filter')->middleware('auth','role:admin cajero medico_consulta recepcionista');
 
 Route::get('/permisos', 'PermisoController@index')->name('permisos.index')->middleware('auth','role:admin cajero almacenista hostess apoyo_medico recepcionista estetica medico_consulta mantenimiento');
 Route::get('/permisos/new', 'PermisoController@create')->name('permisos.create')->middleware('auth','role:admin cajero almacenista hostess apoyo_medico recepcionista estetica medico_consulta mantenimiento');
@@ -62,6 +65,8 @@ Route::any('/pets/storeFromOwner/{id}', 'PetController@storeFromOwner')->name('p
 Route::any('/pets/edit/{id}', 'PetController@editFromOwner')->name('pets.editFromOwner')->middleware('auth');
 Route::any('/pets/update/{id}', 'PetController@updateFromOwner')->name('pets.updateFromOwner')->middleware('auth');
 Route::delete('/pets/delete/{id}', 'PetController@destroy')->name('pets.delete')->middleware('auth','role:admin');
+Route::delete('/pets/deleteFromOwners/{id}', 'PetController@destroyFromOwner')->name('pets.deleteFromOwners')->middleware('auth','role:admin');
+Route::any('/pets/filter', 'PetController@filter')->name('pets.filter')->middleware('auth','role:admin cajero medico_consulta recepcionista');
 
 Route::get('/empleados', 'EmpleadoController@index')->name('empleados.index')->middleware('auth','role:admin');
 Route::get('/empleados/new', 'EmpleadoController@create')->name('empleados.create')->middleware('auth','role:admin');

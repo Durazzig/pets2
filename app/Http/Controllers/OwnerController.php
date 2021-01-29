@@ -38,6 +38,12 @@ class OwnerController extends Controller
 
         return redirect()->route('owners.index');
     }
+    public function filter(Request $request){
+        
+        $name = $request->input('name');
+        $owners = Owner::where('name','LIKE','%'.$name.'%')->paginate(10);
+        return view('owners.index', compact('owners'));
+    }
 
     
     public function show($id)

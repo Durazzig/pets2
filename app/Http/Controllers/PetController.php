@@ -32,18 +32,14 @@ class PetController extends Controller
             'raze' => 'required',
             'dob' => 'required',
             'status' => 'required',
-            'owner_id' => 'required',
         ]);
-
         $pet = new Pet();
         $pet->name = $request->input('name');
-        $pet->owner_id = $request->input('owner_id');
         $pet->species = $request->input('species');  
         $pet->raze = $request->input('raze'); 
         $pet->dob = $request->input('dob'); 
         $pet->status = $request->input('status'); 
         $pet->save();
-
 
         $pets = Pet::orderBy('owner_id')->paginate(10);
         return view('pets.index', compact('pets'));
@@ -122,6 +118,18 @@ class PetController extends Controller
     {
         $pet = Pet::find($id);
         $pet->delete();
-        return redirect()->back()->with('msg','Mascota eliminada correctamente');
+        return redirect()->route('pets.index')->with('msg','Mascota eliminada correctamente');
+    }
+    public function destroyFromOwner($id)
+    {
+        $pet = Pet::find($id);
+        $pet->delete();
+        return redirect()->route('owners.index')->with('msg','Mascota eliminada correctamente');
+    }
+    public function filter(Request $request){
+        
+        $name = $request->input('name');
+        $pets = Pet::where('name','LIKE','%'.$name.'%')->paginate(10);
+        return view('pets.index', compact('pets'));
     }
 }

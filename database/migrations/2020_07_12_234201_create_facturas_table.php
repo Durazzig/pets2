@@ -16,7 +16,7 @@ class CreateFacturasTable extends Migration
         Schema::create('bills', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('provider_id');
-            $table->integer('folio');
+            $table->string('folio');
             $table->date('fecha');
             $table->date('fecha_entrega');
             $table->double('monto');

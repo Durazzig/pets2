@@ -14,6 +14,26 @@
                     </div>
                 </div>
             </div>
+            <div>
+            <form action="{{ route('pets.filter') }}" method="POST">
+            @csrf
+                <div class="form-group form-row">
+                    <div class="col-md-3">
+                        <input type="text" name="name" id="name"  placeholder="Ingresa nombre de mascota" class="form-control @error('name') is-invalid @enderror" required>
+                        @error('name')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                    <div class="col-md-2">
+                        <div>
+                            <button type="submit" name="action" value="filtrar" class="btn btn-success btn-md btn-block">{{ __('Buscar') }}</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            </div>
             @if(session('msg'))
                 <div class="alert alert-warning" align="center">{{session('msg')}}</div>
             @endif
@@ -37,7 +57,7 @@
                     <tr>
                         <td>{{ $pet->id }}</td>
                         <td>{{ $pet->name }}</td>
-                        <td>{{ $pet->owner->name }}</td>
+                        <td>{{ $pet->owner->name ?? 'No tiene dueño'}}</td>
                         <td>{{ $pet->species }}</td>
                         <td>{{ $pet->raze }}</td>
 						<td>{{ $pet->getAgeAttribute() }}</td>

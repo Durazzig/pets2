@@ -31,13 +31,11 @@
                             @enderror
                         </div>
                         <div class="col-md-6">
-                            <label for="phone">{{ __('Especie') }}</label>
-                            <input type="text" name="species" id="phone" class="form-control @error('phone') is-invalid @enderror">
-                            @error('phone')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                            <label>Especie</label>
+                            <select class="custom-select" name="species" id="">
+                                <option value="Canino">Canino</option>
+                                <option value="Felino">Felino</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group form-row">
@@ -61,23 +59,13 @@
                         </div>
                     </div>
                     <div class="form-group form-row">
-                        <div class="col-md-6">
-                            <label for="name">{{ __('Estatus') }}</label>
-                            <input type="text" name="status" id="name" class="form-control @error('name') is-invalid @enderror">
-                            @error('name')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="col-md-6">
-                            <label for="name">{{ __('Propietario') }}</label>
-                            <input type="text" name="owner_id" id="name" class="form-control @error('name') is-invalid @enderror">
-                            @error('name')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                        <div class="col-md-12">
+                            <label>Estatus</label>
+                            <select class="custom-select" name="status" id="">
+                                <option value="Hospitalizado">Hospitalizado</option>
+                                <option value="Dado de alta">Dado de alta</option>
+                                <option value="Fallecido">Fallecido</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">

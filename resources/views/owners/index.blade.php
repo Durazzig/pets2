@@ -16,6 +16,26 @@
                     </div>
                 </div>
             </div>
+            <div>
+            <form action="{{ route('owners.filter') }}" method="POST">
+            @csrf
+                <div class="form-group form-row">
+                    <div class="col-md-3">
+                        <input type="text" name="name" id="name"  placeholder="Ingresa nombre de propietario" class="form-control @error('name') is-invalid @enderror" required>
+                        @error('name')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                    <div class="col-md-2">
+                        <div>
+                            <button type="submit" name="action" value="filtrar" class="btn btn-success btn-md btn-block">{{ __('Buscar') }}</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            </div>
             @if(session('msg'))
                 <div class="alert alert-warning" align="center">{{session('msg')}}</div>
             @endif

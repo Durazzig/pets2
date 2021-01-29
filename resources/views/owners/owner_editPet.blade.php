@@ -10,7 +10,7 @@
                         <h3 class="mb-0">{{ __('Editar Mascota') }}</h3>
                     </div>
                     <div>
-                        <a href="{{ route('pets.updateFromOwner',$pet->id) }}" class="btn btn-danger">
+                        <a href="{{ route('pets.index',$pet->id) }}" class="btn btn-danger">
                             {{ __('Regresar')}}
                         </a>
                     </div>

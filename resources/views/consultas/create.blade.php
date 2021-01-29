@@ -48,11 +48,11 @@
                     <div class="form-group form-row">
                         <div class="col-md-6">
                             <label for="name">{{ __('Peso') }}</label>
-                            <input type="text" name="peso" id="peso" class="form-control">
+                            <input type="text" name="peso" placeholder="En Kg" id="peso" class="form-control">
                         </div>
                         <div class="col-md-6">
                             <label for="phone">{{ __('Edad') }}</label>
-                            <input type="text" name="edad" id="edad" class="form-control">
+                            <input type="text" name="edad" placeholder="En años" id="edad" class="form-control">
                         </div>
                     </div>
                     <div class="form-group form-row">

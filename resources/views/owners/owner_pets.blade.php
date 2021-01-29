@@ -10,6 +10,9 @@
                         <h3 class="mb-0">Mascotas de {{$owner->name}}</h3>
                     </div>
                     <div>
+                    <a href="{{ route('owners.index') }}" class="btn btn-danger">
+                            {{ __('Regresar')}}
+                        </a>
                     <a href="{{route('owners.addPet',$owner->id)}}" class="btn btn-success"><span>Añadir Mascota</span></a>
                     </div>
                 </div>
@@ -46,7 +49,7 @@
                             </a>
                         </td>
 						<td>
-							<form action="{{route('pets.delete',$pet->id)}}" method="POST">
+							<form action="{{route('pets.deleteFromOwners',$pet->id)}}" method="POST">
 								{{method_field('DELETE')}}
 								@csrf
 								<button type="submit" onclick="return confirm('¿Seguro que deseas eliminarlo?')" class="btn btn-danger btn-sm">Borrar</button>
