@@ -45,7 +45,7 @@
                             </a>
                         </td>
                         <td>
-                            <a href="{{url('/owner/edit',$owner->id)}}" class="btn btn-outline-secondary btn-sm">
+                            <a href="{{url('/owners/edit',$owner->id)}}" class="btn btn-outline-secondary btn-sm">
                                 Editar
                             </a>
                         </td>

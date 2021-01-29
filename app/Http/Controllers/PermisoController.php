@@ -102,8 +102,9 @@ class PermisoController extends Controller
     {
         $permiso = $request->except('_token');
         Permiso::where('id','=',$id)->update($permiso);
-        $permisos = Permiso::all();
-        return view('permisos.index',compact('permisos'));
+        $permisos = Permiso::whereDate('fecha_permiso', today())->paginate(10);
+        $empleados = User::all();
+        return view('permisos.index', compact('permisos'))->with(compact('empleados'));
     }
 
     /**
@@ -130,10 +131,7 @@ class PermisoController extends Controller
                 $empleado = $request -> input('empleado_id');
                 $empleados = User::all();
                 $permisos = Permiso::where('empleado',$empleado)->whereBetween('fecha_permiso',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->paginate(10);
-                return view('permisos.index', [
-                    'permisos' => $permisos,
-                    'empleados' => $empleados,
-                ]);
+                return redirect()->route('permisos.index', compact('permisos'))->with(compact('empleados'));
             }
             else
             {

@@ -79,11 +79,11 @@
                             <li class="nav-item">
                                 <a class="nav-link text-white" href="{{ route('login') }}">{{ __('Iniciar Sesion') }}</a>
                             </li>
-                            @if (Route::has('register'))
+                            <!--@if (Route::has('register'))
                                 <li class="nav-item">
                                     <a class="nav-link text-white" href="{{ route('register') }}">{{ __('Registrarse') }}</a>
                                 </li>
-                            @endif
+                            @endif-->
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle text-white" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

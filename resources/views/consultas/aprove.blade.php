@@ -59,7 +59,7 @@
                         </div>
                     </div>
                     <div class="form-group form-row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <label for="phone">{{ __('Servicios') }}</label>
                             <input type="text" name="servicio" value="{{$consulta->servicio}}" id="phone" class="form-control @error('phone') is-invalid @enderror">
                         </div>

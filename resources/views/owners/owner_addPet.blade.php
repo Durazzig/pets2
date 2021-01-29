@@ -10,7 +10,7 @@
                         <h3 class="mb-0">{{ __('Nueva Mascota') }}</h3>
                     </div>
                     <div>
-                        <a href="{{ route('consultas.index') }}" class="btn btn-danger">
+                        <a href="{{url('/owners/pets',$owner->id) }}" class="btn btn-danger">
                             {{ __('Regresar')}}
                         </a>
                     </div>
@@ -39,7 +39,7 @@
                             <input name="raze" class="form-control" required></input>
                         </div>
                         <div class="col-md-6">
-                            <label>Edad</label>
+                            <label>Fecha de nacimiento</label>
                             <input type="date" name="dob" class="form-control" required>
                         </div>
                     </div>

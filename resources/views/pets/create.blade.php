@@ -51,8 +51,8 @@
                             @enderror
                         </div>
                         <div class="col-md-6">
-                            <label for="name">{{ __('Edad') }}</label>
-                            <input type="text" name="age" id="name" class="form-control @error('name') is-invalid @enderror">
+                            <label for="name">{{ __('Fecha de nacimiento') }}</label>
+                            <input type="date" name="dob" id="name" class="form-control @error('name') is-invalid @enderror">
                             @error('name')
                                 <div class="invalid-feedback">
                                     {{ $message }}

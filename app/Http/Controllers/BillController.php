@@ -36,7 +36,7 @@ class BillController extends Controller
     {
         $request->validate([
             'provider_id'  => 'required|numeric',
-            'folio' => 'required|numeric|min:3',
+            'folio' => 'required|min:3',
             'fecha' => 'required',
             'fecha_entrega' => 'required',
             'monto' => 'required|numeric',
@@ -100,7 +100,6 @@ class BillController extends Controller
                     $provider = $request -> input('provider_id');
                     $providers = Provider::all();
                     $bills = Bill::where('provider_id',$provider)->whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->get();
-                    //dd($bills);
                     return Excel::download(new BillsExport($bills),'facturas.xlsx');
                 }
                 else

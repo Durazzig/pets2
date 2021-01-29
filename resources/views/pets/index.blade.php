@@ -10,7 +10,7 @@
                         <h3 class="mb-0">Mascotas</h3>
                     </div>
                     <div>
-                    <a href="" class="btn btn-success"><span>Añadir Mascota</span></a>
+                    <a href="{{ route('pets.create') }}" class="btn btn-success"><span>Añadir Mascota</span></a>
                     </div>
                 </div>
             </div>

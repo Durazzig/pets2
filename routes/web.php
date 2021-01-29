@@ -42,6 +42,8 @@ Route::get('/owners', 'OwnerController@index')->name('owners.index')->middleware
 Route::get('/owners/new', 'OwnerController@create')->name('owners.create')->middleware('auth','role:admin recepcionista cajero medico_consulta');
 Route::any('/owners/store', 'OwnerController@store')->name('owners.store')->middleware('auth','role:admin recepcionista cajero medico_consulta');
 Route::any('/owners/pets/{id}', 'OwnerController@pets')->name('owners.pets')->middleware('auth','role:admin recepcionista cajero medico_consulta');
+Route::any('/owners/edit/{id}', 'OwnerController@edit')->name('owners.edit')->middleware('auth','role:admin recepcionista cajero medico_consulta');
+Route::any('/owners/update/{id}', 'OwnerController@update')->name('owners.update')->middleware('auth','role:admin recepcionista cajero medico_consulta');
 Route::any('/owners/pets/addPet/{id}', 'OwnerController@addOwnerPet')->name('owners.addPet')->middleware('auth','role:admin recepcionista cajero medico_consulta');
 Route::delete('/owners/delete/{id}', 'OwnerController@destroy')->name('owners.delete')->middleware('auth','role:admin');
 

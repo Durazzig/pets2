@@ -25,27 +25,28 @@ class PetController extends Controller
     public function store(Request $request)
     {
         //dd($request->input('owner'));
+        //dd($request);
         $request->validate([
             'name'  => 'required',
             'species' => 'required',
             'raze' => 'required',
-            'age' => 'required',
+            'dob' => 'required',
             'status' => 'required',
             'owner_id' => 'required',
         ]);
 
-        Pet::create([
-            'name'  => $request->input('name'),
-            'species'  => $request->input('species'),
-            'raze' => $request->input('raze'),
-            'age' => $request->input('age'),
-            'status' => $request->input('status'),
-            'owner_id' => $request->input('owner_id'),
-        ]);
+        $pet = new Pet();
+        $pet->name = $request->input('name');
+        $pet->owner_id = $request->input('owner_id');
+        $pet->species = $request->input('species');  
+        $pet->raze = $request->input('raze'); 
+        $pet->dob = $request->input('dob'); 
+        $pet->status = $request->input('status'); 
+        $pet->save();
 
 
-        $pets = Pet::all();
-        return view('pets.index',compact('pets'));
+        $pets = Pet::orderBy('owner_id')->paginate(10);
+        return view('pets.index', compact('pets'));
     }
 
     public function storeFromOwner(Request $request,$id)
@@ -112,7 +113,7 @@ class PetController extends Controller
         $pet->dob = $request->input('dob'); 
         $pet->status = $request->input('status'); 
         $pet->save();
-        $owners = Owner::all();
+        $owners = Owner::paginate(10);
         return view('owners.index',compact('owners'));
     }
 
