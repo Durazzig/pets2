@@ -131,12 +131,14 @@ class PermisoController extends Controller
                 $empleado = $request -> input('empleado_id');
                 $empleados = User::all();
                 $permisos = Permiso::where('empleado',$empleado)->whereBetween('fecha_permiso',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->paginate(10);
+                $permisos->appends($request->all());
                 return redirect()->route('permisos.index', compact('permisos'))->with(compact('empleados'));
             }
             else
             {
                 $empleados = User::all();
                 $permisos = Permiso::whereBetween('fecha_permiso',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->paginate(10);
+                $permisos->appends($request->all());
                 return view('permisos.index',compact('empleados'))->with(compact('permisos'));
             }
             break;

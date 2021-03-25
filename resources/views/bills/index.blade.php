@@ -61,7 +61,6 @@
                         <th scope="col">{{ __('Fecha de Entrega') }}</th>
                         <th scope="col">{{ __('Monto') }}</th>
                         <th scope="col">{{ __('Entrega') }}</th>
-                        <th scope="col">{{ __('Imagen') }}</th>
                         <th scope="col">{{ __('Editar') }}</th>
                         <th scope="col">{{ __('Eliminar') }}</th>
                     </tr>
@@ -76,7 +75,6 @@
                         <td>{{ $bill->fecha_entrega }}</td>
                         <td>{{ $bill->monto }}</td>
                         <td>{{ $bill->empleados->name }}</td>
-                        <td><img src="{{asset('uploads/facturas/' . $bill->imagen)}}" alt="image" height="50px" width="75px"></td>
                         <td>
                             <a href="{{url('/facturas/edit',$bill->id)}}" class="btn btn-outline-secondary btn-sm">
                                 Editar

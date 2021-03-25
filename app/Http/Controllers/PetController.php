@@ -130,6 +130,7 @@ class PetController extends Controller
         
         $name = $request->input('name');
         $pets = Pet::where('name','LIKE','%'.$name.'%')->paginate(10);
+        $pets->appends($request->all());
         return view('pets.index', compact('pets'));
     }
 }

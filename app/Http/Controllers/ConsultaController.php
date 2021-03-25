@@ -19,7 +19,7 @@ class ConsultaController extends Controller
     {
         $fecha = Carbon::now()->timezone('America/Mexico_City')->toDateString();
         $medicos = User::where('work_area','Hospital')->get();
-        $consultas = Consulta::whereDate('fecha', $fecha)->paginate(10);
+        $consultas = Consulta::whereDate('fecha', $fecha)->paginate(5);
         return view('consultas.index',compact('consultas'))->with(compact('medicos'));
     }
 
@@ -180,13 +180,15 @@ class ConsultaController extends Controller
             {
                 $medico = $request -> input('medico_id');
                 $medicos = User::where('work_area','hospital')->get();
-                $consultas = Consulta::where('medico_id',$medico)->whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->paginate(10);
+                $consultas = Consulta::where('medico_id',$medico)->whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->paginate(5);
+                $consultas->appends($request->all());
                 return view('consultas.index')->with(compact('medicos'))->with(compact('consultas'));
             }
             else
             {
                 $medicos = User::all();
-                $consultas = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->paginate(10);
+                $consultas = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->paginate(5);
+                $consultas->appends($request->all());
                 return view('consultas.index')->with(compact('medicos'))->with(compact('consultas'));
             }
             break;

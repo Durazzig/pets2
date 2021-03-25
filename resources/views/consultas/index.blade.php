@@ -6,7 +6,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-10">
                         <div>
                             <h3 class="mb-0">Consultas</h3>
                         </div>
@@ -15,13 +15,6 @@
                         <div>
                             <a href="{{ route('consultas.create') }}" class="btn btn-primary">
                                 {{ __('Nueva Consulta')}}
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div>
-                            <a href="{{ route('consultas.citar') }}" class="btn btn-primary">
-                                {{ __('Agregar Cita')}}
                             </a>
                         </div>
                     </div>

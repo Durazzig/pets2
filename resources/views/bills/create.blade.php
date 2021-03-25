@@ -58,12 +58,6 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group form-row">
-                        <div class="col-md-6">
-                            <label for="phone">{{ __('Imagen de factura') }}</label>
-                            <input type="file" name="user_image"/>
-                        </div>
-                    </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-success btn-lg btn-block">{{ __('Crear') }}</button>
                     </div>

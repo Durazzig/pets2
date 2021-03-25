@@ -42,6 +42,7 @@ class OwnerController extends Controller
         
         $name = $request->input('name');
         $owners = Owner::where('name','LIKE','%'.$name.'%')->paginate(10);
+        $owners->appends($request->all());
         return view('owners.index', compact('owners'));
     }
 

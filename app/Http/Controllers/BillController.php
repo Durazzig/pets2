@@ -36,7 +36,7 @@ class BillController extends Controller
     {
         $request->validate([
             'provider_id'  => 'required|numeric',
-            'folio' => 'required|min:3',
+            'folio' => 'required|min:3|alpha_num',
             'fecha' => 'required',
             'fecha_entrega' => 'required',
             'monto' => 'required|numeric',
@@ -81,7 +81,8 @@ class BillController extends Controller
                 {
                     $provider = $request -> input('provider_id');
                     $providers = Provider::all();
-                    $bills = Bill::where('provider_id',$provider)->whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->paginate(10);
+                    $bills = Bill::where('provider_id',$provider)->whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->paginate(5);
+                    $bills->appends($request->all());
                     return view('bills.index', [
                         'bills' => $bills,
                         'providers' => $providers,
@@ -91,6 +92,7 @@ class BillController extends Controller
                 {
                     $providers = Provider::all();
                     $bills = Bill::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->paginate(10);
+                    $bills->appends($request->all());
                     return view('bills.index',compact('providers'))->with(compact('bills'));
                 }
                 break;
