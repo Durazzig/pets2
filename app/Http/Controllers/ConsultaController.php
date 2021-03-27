@@ -319,7 +319,7 @@ class ConsultaController extends Controller
                     $noUrgenciasPM = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('medico_id',$medico->medico_id)->where('servicio','LIKE','%Urgencia%')->where('finalizado','1')->count();
                     $noRevisionPM = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('medico_id',$medico->medico_id)->where('servicio','LIKE','%Revisión%')->where('finalizado','1')->count();
                     $noPlacaPM = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('medico_id',$medico->medico_id)->where('servicio','LIKE','%Placa%')->where('finalizado','1')->count();
-                    $noDespaPM = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('medico_id',$medico->medico_id)->where('servicio','LIKE','%Desparasitazión%')->where('finalizado','1')->count();
+                    $noDespaPM = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('medico_id',$medico->medico_id)->where('servicio','LIKE','%Desparasitacion%')->where('finalizado','1')->count();
                     $noEutanaPM = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('medico_id',$medico->medico_id)->where('servicio','LIKE','%Eutanasia%')->where('finalizado','1')->count();
                     $noLabPM = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('medico_id',$medico->medico_id)->where('servicio','LIKE','%Lab%')->where('finalizado','1')->count();
                     

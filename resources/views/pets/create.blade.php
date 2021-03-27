@@ -4,13 +4,13 @@
 <div class="row">
     <div class="col-md-6 mx-auto">
         <div class="card">
-            <div class="card-header">
+            <div class="card-header bg-primary text-white">
                 <div class="d-flex justify-content-between">
                     <div>
                         <h3 class="mb-0">{{ __('Nueva Mascota') }}</h3>
                     </div>
                     <div>
-                        <a href="{{ route('pets.index') }}" class="btn btn-danger">
+                        <a href="{{ route('pets.index') }}" class="btn btn-danger font-weight-bold">
                             {{ __('Regresar')}}
                         </a>
                     </div>

@@ -4,13 +4,13 @@
 <div class="row">
     <div class="col-md-6 mx-auto">
         <div class="card">
-            <div class="card-header">
+            <div class="card-header bg-primary text-white">
                 <div class="d-flex justify-content-between">
                     <div>
                         <h3 class="mb-0">{{ __('Nueva Consulta') }}</h3>
                     </div>
                     <div>
-                        <a href="{{ route('consultas.index') }}" class="btn btn-danger">
+                        <a href="{{ route('consultas.index') }}" class="btn btn-danger font-weight-bold">
                             {{ __('Regresar')}}
                         </a>
                     </div>
@@ -66,7 +66,7 @@
                                 <option value="Urgencia">Urgencia</option>
                                 <option value="Consulta">Consulta</option>
                                 <option value="Revision">Revision</option>
-                                <option value="Desparasitación">Desparasitación</option>
+                                <option value="Desparasitacion">Desparasitación</option>
                                 <option value="Placa">Placa</option>
                                 <option value="Eutanasia">Eutanasia</option>
                                 <option value="Laboratorio">Eutanasia</option>
