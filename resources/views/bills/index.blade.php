@@ -4,20 +4,16 @@
 <div class="row">
     <div class="col-md-8 mx-auto">
         <div class="card">
-            <div class="card-header">
+            <div class="card-header bg-primary text-white">
                 <div class="row">
-                    <div class="col-md-10">
-                        <div>
-                            <h3 class="mb-0">Facturas</h1>
-                        </div>
+                    <div class="col-md-6">
+                        <h3 class="mb-0">Facturas</h1>
                     </div>
-                   
-                        <div>
-                            <a href="{{ route('bills.create') }}" class="btn btn-primary">
-                                {{ __('Nueva Factura')}}
-                            </a>
-                        </div>
-                    
+                    <div class="col-md-6 text-right">
+                        <a href="{{ route('bills.create') }}" class="btn btn-success font-weight-bold">
+                            {{ __('Nueva Factura')}}
+                        </a>
+                    </div>
                 </div>
             </div>
             <section class="card-header">

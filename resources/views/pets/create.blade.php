@@ -24,12 +24,15 @@
                         <div class="col-md-6">
                             <label for="name">{{ __('Nombre') }}</label>
                             <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror">
-                            @error('name')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
                         </div>
+                        <div class="col-md-6">
+                            <label for="name">{{ __('Propietario') }}</label>
+                            <select class="custom-select" name="owner" id="">
+                                <option>No tiene dueño</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group form-row">
                         <div class="col-md-6">
                             <label>Especie</label>
                             <select class="custom-select" name="species" id="">
@@ -37,29 +40,17 @@
                                 <option value="Felino">Felino</option>
                             </select>
                         </div>
-                    </div>
-                    <div class="form-group form-row">
                         <div class="col-md-6">
                             <label for="name">{{ __('Raza') }}</label>
                             <input type="text" name="raze" id="name" class="form-control @error('name') is-invalid @enderror">
-                            @error('name')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="col-md-6">
-                            <label for="name">{{ __('Fecha de nacimiento') }}</label>
-                            <input type="date" name="dob" id="name" class="form-control @error('name') is-invalid @enderror">
-                            @error('name')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
                         </div>
                     </div>
                     <div class="form-group form-row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
+                            <label for="name">{{ __('Fecha de nacimiento') }}</label>
+                            <input type="date" name="dob" id="name" class="form-control @error('name') is-invalid @enderror">
+                        </div>
+                        <div class="col-md-6">
                             <label>Estatus</label>
                             <select class="custom-select" name="status" id="">
                                 <option value="Hospitalizado">Hospitalizado</option>

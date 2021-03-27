@@ -4,13 +4,13 @@
 <div class="row">
     <div class="col-md-8 mx-auto">
         <div class="card">
-            <div class="card-header">
+            <div class="card-header bg-primary text-white">
                 <div class="d-flex justify-content-between">
                     <div>
                         <h3 class="mb-0">Mascotas</h3>
                     </div>
                     <div>
-                    <a href="{{ route('pets.create') }}" class="btn btn-success"><span>Añadir Mascota</span></a>
+                    <a href="{{ route('pets.create') }}" class="btn btn-success font-weight-bold"><span>Añadir Mascota</span></a>
                     </div>
                 </div>
             </div>
@@ -28,7 +28,7 @@
                     </div>
                     <div class="col-md-2">
                         <div>
-                            <button type="submit" name="action" value="filtrar" class="btn btn-success btn-md btn-block">{{ __('Buscar') }}</button>
+                            <button type="submit" name="action" value="filtrar" class="btn btn-success btn-md btn-block font-weight-bold">{{ __('Buscar') }}</button>
                         </div>
                     </div>
                 </div>
@@ -63,7 +63,7 @@
 						<td>{{ $pet->getAgeAttribute() }}</td>
 						<td>{{ $pet->status }}</td>
                         <td>
-							<a href="{{route('pets.editFromOwner',$pet->id)}}" class="btn btn-outline-secondary btn-sm">
+							<a href="{{route('pets.editFromOwner',$pet->id)}}" class="btn btn-outline-secondary btn-sm ">
 								Editar
                             </a>
                         </td>
@@ -71,7 +71,7 @@
 							<form action="{{route('pets.delete',$pet->id)}}" method="POST">
 								{{method_field('DELETE')}}
 								@csrf
-								<button type="submit" onclick="return confirm('¿Seguro que deseas eliminarlo?')" class="btn btn-danger btn-sm">Borrar</button>
+								<button type="submit" onclick="return confirm('¿Seguro que deseas eliminarlo?')" class="btn btn-danger btn-sm font-weight-bold">Borrar</button>
     						</form>
                         </td>
                     </tr>

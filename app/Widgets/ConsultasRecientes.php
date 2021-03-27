@@ -8,7 +8,7 @@ use Carbon\Carbon;
 
 class ConsultasRecientes extends AbstractWidget
 {
-    public $reloadTimeout = 10;
+    public $reloadTimeout = 5;
 
     protected $config = [
         'count' => 5

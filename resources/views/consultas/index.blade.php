@@ -4,19 +4,15 @@
 <div class="row">
     <div class="col-md-11 mx-auto">
         <div class="card">
-            <div class="card-header">
+            <div class="card-header bg-primary text-white">
                 <div class="row">
-                    <div class="col-md-10">
-                        <div>
-                            <h3 class="mb-0">Consultas</h3>
-                        </div>
+                    <div class="col-md-6">
+                        <h3 class="mb-0">Consultas</h3>
                     </div>
-                    <div class="col-md-2">
-                        <div>
-                            <a href="{{ route('consultas.create') }}" class="btn btn-primary">
-                                {{ __('Nueva Consulta')}}
-                            </a>
-                        </div>
+                    <div class="col-md-6 text-right">
+                        <a href="{{ route('consultas.create') }}" class="btn btn-success font-weight-bold">
+                            {{ __('Nueva Consulta')}}
+                        </a>
                     </div>
                 </div>
             </div>

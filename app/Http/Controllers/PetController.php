@@ -39,6 +39,9 @@ class PetController extends Controller
         $pet->raze = $request->input('raze'); 
         $pet->dob = $request->input('dob'); 
         $pet->status = $request->input('status'); 
+        if ($request->input('owner') != "No tiene dueño") {
+            $pet->owner_id = $request->input('owner');
+        }
         $pet->save();
 
         $pets = Pet::orderBy('owner_id')->paginate(10);

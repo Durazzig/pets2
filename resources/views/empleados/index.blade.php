@@ -4,13 +4,13 @@
 <div class="row">
     <div class="col-md-8 mx-auto">
         <div class="card">
-            <div class="card-header">
+            <div class="card-header bg-primary text-white">
                 <div class="d-flex justify-content-between">
                     <div>
                         <h3 class="mb-0">Empleados</h3>
                     </div>
                     <div>
-                        <a href="{{ route('empleados.create') }}" class="btn btn-primary">
+                        <a href="{{ route('empleados.create') }}" class="btn btn-success font-weight-bold">
                             {{ __('Nuevo Empleado')}}
                         </a>
                     </div>
