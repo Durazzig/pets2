@@ -33,11 +33,11 @@ class ConsultaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'propietario' => 'required',
+            'propietario' => 'required|regex:/^[\pL\s\-]+$/u',
             'mascota' => 'required',
             'peso' => 'required|numeric',
-            'edad' => 'required',
-            'raza' => 'required',
+            'edad' => 'required|numeric',
+            'raza' => 'required|alpha',
             'servicio' => 'required',
         ]);
 
@@ -124,11 +124,11 @@ class ConsultaController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'propietario' => 'required',
+            'propietario' => 'required|regex:/^[\pL\s\-]+$/u',
             'mascota' => 'required',
-            'peso' => 'required',
-            'edad' => 'required',
-            'raza' => 'required',
+            'peso' => 'required|numeric',
+            'edad' => 'required|numeric',
+            'raza' => 'required|alpha',
             'servicio' => 'required',
         ]);
 
@@ -204,8 +204,10 @@ class ConsultaController extends Controller
                 $noUrgencias = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('servicio','LIKE','%Urgencia%')->where('finalizado','1')->count();
                 $noRevision = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('servicio','LIKE','%Revisión%')->where('finalizado','1')->count();
                 $noPlaca = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('servicio','LIKE','%Placa%')->where('finalizado','1')->count();
-                $noDespa = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('servicio','LIKE','%Desparasitazión%')->where('finalizado','1')->count();
+                $noDespa = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('servicio','LIKE','%Desparasitacion%')->where('finalizado','1')->count();
                 $noEutana = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('servicio','LIKE','%Eutanasia%')->where('finalizado','1')->count();
+                $noLab = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('servicio','LIKE','%Lab%')->where('finalizado','1')->count();
+                
                 
                 $listaAComparar = array();
                 $listaAComparar[0] = $noConsultas;
@@ -214,6 +216,7 @@ class ConsultaController extends Controller
                 $listaAComparar[3] = $noPlaca;
                 $listaAComparar[4] = $noDespa;
                 $listaAComparar[5] = $noEutana;
+                $listaAComparar[6] = $noLab;
                 $mayor = 0;
                 $menor = 0;
                 $listaIndices = $listaAComparar;
@@ -227,15 +230,46 @@ class ConsultaController extends Controller
                         }
                     }
                 }
-                for($i=0;$i<count($listaAComparar);$i++)
-                {
-                    if($listaIndices[$i]==$listaAComparar[5]){
-                        $mayor=$i;
-                    }elseif($listaIndices[$i]==$listaAComparar[0])
-                    {
-                        $menor=$i;
+                $CeroEncontrado = 0;
+                for($i=0; $i<count($listaAComparar);$i++){
+                    if($listaAComparar[$i]==0){
+                        $CeroEncontrado = $i;
                     }
                 }
+                if($CeroEncontrado==5){
+                    for($i=0;$i<count($listaAComparar);$i++)
+                    {
+                        if($listaIndices[$i]==$listaAComparar[6]){
+                            $mayor=$i;
+                        }elseif($listaIndices[$i]==$listaAComparar[0])
+                        {
+                            $menor=$i;
+                        }
+                    }
+                }elseif($CeroEncontrado==0){
+                    for($i=0;$i<count($listaAComparar);$i++)
+                    {
+                        if($listaIndices[$i]==$listaAComparar[6]){
+                            $mayor=$i;
+                        }elseif($listaIndices[$i]==$listaAComparar[$CeroEncontrado])
+                        {
+                            $menor=$i;
+                        }
+                    }
+                }
+                else{
+                    for($i=0;$i<count($listaAComparar);$i++)
+                    {
+                        if($listaIndices[$i]==$listaAComparar[6]){
+                            $mayor=$i;
+                        }elseif($listaIndices[$i]==$listaAComparar[$CeroEncontrado+1])
+                        {
+                            $menor=$i;
+                        }
+                    }
+                }
+                //dd($CeroEncontrado,$listaAComparar);
+                
                 $listaServices = array();
                 $listaServices[0] = "Consulta";
                 $listaServices[1] = "Urgencia";
@@ -243,6 +277,7 @@ class ConsultaController extends Controller
                 $listaServices[3] = "Placa";
                 $listaServices[4] = "Desparasitación";
                 $listaServices[5] = "Eutanasia";
+                $listaServices[6] = "Laboratorio";
                 $noServicesTotal = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('finalizado','1')->count();
                 //$maxServicesTotal = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->min('servicio');
                 //$minServicesTotal = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->max('servicio');
@@ -286,6 +321,7 @@ class ConsultaController extends Controller
                     $noPlacaPM = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('medico_id',$medico->medico_id)->where('servicio','LIKE','%Placa%')->where('finalizado','1')->count();
                     $noDespaPM = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('medico_id',$medico->medico_id)->where('servicio','LIKE','%Desparasitazión%')->where('finalizado','1')->count();
                     $noEutanaPM = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('medico_id',$medico->medico_id)->where('servicio','LIKE','%Eutanasia%')->where('finalizado','1')->count();
+                    $noLabPM = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('medico_id',$medico->medico_id)->where('servicio','LIKE','%Lab%')->where('finalizado','1')->count();
                     
                     $listaACompararPM = array();
                     $listaACompararPM[0] = $noConsPM;
@@ -294,6 +330,7 @@ class ConsultaController extends Controller
                     $listaACompararPM[3] = $noPlacaPM;
                     $listaACompararPM[4] = $noDespaPM;
                     $listaACompararPM[5] = $noEutanaPM;
+                    $listaACompararPM[6] = $noLabPM;
                     $mayorPM = 0;
                     $menorPM = 0;
                     $listaIndicesPM = $listaACompararPM;
@@ -307,13 +344,42 @@ class ConsultaController extends Controller
                             }
                         }
                     }
-                    for($i=0;$i<count($listaACompararPM);$i++)
-                    {
-                        if($listaIndicesPM[$i]==$listaACompararPM[5]){
-                            $mayorPM=$i;
-                        }elseif($listaIndicesPM[$i]==$listaACompararPM[0])
+                    $CeroEncontrado = 0;
+                    for($i=0; $i<count($listaACompararPM);$i++){
+                        if($listaACompararPM[$i]==0){
+                            $CeroEncontrado = $i;
+                        }
+                    }
+                    if($CeroEncontrado==5){
+                        for($i=0;$i<count($listaACompararPM);$i++)
                         {
-                            $menorPM=$i;
+                            if($listaIndicesPM[$i]==$listaACompararPM[6]){
+                                $mayorPM=$i;
+                            }elseif($listaIndicesPM[$i]==$listaACompararPM[0])
+                            {
+                                $menorPM=$i;
+                            }
+                        }
+                    }elseif($CeroEncontrado==0){
+                        for($i=0;$i<count($listaACompararPM);$i++)
+                        {
+                            if($listaIndicesPM[$i]==$listaACompararPM[6]){
+                                $mayorPM=$i;
+                            }elseif($listaIndicesPM[$i]==$listaACompararPM[$CeroEncontrado])
+                            {
+                                $menorPM=$i;
+                            }
+                        }
+                    }
+                    else{
+                        for($i=0;$i<count($listaACompararPM);$i++)
+                        {
+                            if($listaIndicesPM[$i]==$listaACompararPM[6]){
+                                $mayorPM=$i;
+                            }elseif($listaIndicesPM[$i]==$listaACompararPM[$CeroEncontrado+1])
+                            {
+                                $menorPM=$i;
+                            }
                         }
                     }
                     
@@ -324,6 +390,7 @@ class ConsultaController extends Controller
                     $listaServicesPM[3] = "Placa";
                     $listaServicesPM[4] = "Desparasitación";
                     $listaServicesPM[5] = "Eutanasia";
+                    $listaServicesPM[6] = "Laboratorio";
 
                     $medicosName = User::where('id',$medico->medico_id)->get('name');
                     //$maxServices = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('medico_id',$medico->medico_id)->min('servicio');
@@ -413,7 +480,8 @@ class ConsultaController extends Controller
                 $noPlaca = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('medico_id',$request->input('medico_id'))->where('servicio','LIKE','%Placa%')->where('finalizado','1')->count();
                 $noDespa = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('medico_id',$request->input('medico_id'))->where('servicio','LIKE','%Desparasitazión%')->where('finalizado','1')->count();
                 $noEutana = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('medico_id',$request->input('medico_id'))->where('servicio','LIKE','%Eutanasia%')->where('finalizado','1')->count();
-                
+                $noLab = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('medico_id',$request->input('medico_id'))->where('servicio','LIKE','%Lab%')->where('finalizado','1')->count();
+
                 $listaAComparar = array();
                 $listaAComparar[0] = $noConsultas;
                 $listaAComparar[1] = $noUrgencias;
@@ -421,6 +489,7 @@ class ConsultaController extends Controller
                 $listaAComparar[3] = $noPlaca;
                 $listaAComparar[4] = $noDespa;
                 $listaAComparar[5] = $noEutana;
+                $listaAComparar[6] = $noLab;
                 $mayor = 0;
                 $menor = 0;
                 $listaIndices = $listaAComparar;
@@ -434,15 +503,46 @@ class ConsultaController extends Controller
                         }
                     }
                 }
-                for($i=0;$i<count($listaAComparar);$i++)
-                {
-                    if($listaIndices[$i]==$listaAComparar[5]){
-                        $mayor=$i;
-                    }elseif($listaIndices[$i]==$listaAComparar[0])
-                    {
-                        $menor=$i;
+                $CeroEncontrado = 0;
+                for($i=0; $i<count($listaAComparar);$i++){
+                    if($listaAComparar[$i]==0){
+                        $CeroEncontrado = $i;
                     }
                 }
+                if($CeroEncontrado==5){
+                    for($i=0;$i<count($listaAComparar);$i++)
+                    {
+                        if($listaIndices[$i]==$listaAComparar[6]){
+                            $mayor=$i;
+                        }elseif($listaIndices[$i]==$listaAComparar[0])
+                        {
+                            $menor=$i;
+                        }
+                    }
+                }elseif($CeroEncontrado==0){
+                    for($i=0;$i<count($listaAComparar);$i++)
+                    {
+                        if($listaIndices[$i]==$listaAComparar[6]){
+                            $mayor=$i;
+                        }elseif($listaIndices[$i]==$listaAComparar[$CeroEncontrado])
+                        {
+                            $menor=$i;
+                        }
+                    }
+                }
+                else{
+                    for($i=0;$i<count($listaAComparar);$i++)
+                    {
+                        if($listaIndices[$i]==$listaAComparar[6]){
+                            $mayor=$i;
+                        }elseif($listaIndices[$i]==$listaAComparar[$CeroEncontrado+1])
+                        {
+                            $menor=$i;
+                        }
+                    }
+                }
+
+
                 $listaServices = array();
                 $listaServices[0] = "Consulta";
                 $listaServices[1] = "Urgencia";
@@ -450,6 +550,7 @@ class ConsultaController extends Controller
                 $listaServices[3] = "Placa";
                 $listaServices[4] = "Desparasitación";
                 $listaServices[5] = "Eutanasia";
+                $listaServices[6] = "Laboratorio";
 
                 //$maxServices = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('medico_id',$request->input('medico_id'))->where('finalizado','1')->min('servicio');
                 //$minServices = Consulta::whereBetween('fecha',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('medico_id',$request->input('medico_id'))->where('finalizado','1')->max('servicio');

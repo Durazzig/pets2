@@ -29,6 +29,9 @@
                             <label for="name">{{ __('Propietario') }}</label>
                             <select class="custom-select" name="owner" id="">
                                 <option>No tiene dueño</option>
+                                @foreach($owners as $owner)
+                                    <option value="{{$owner->id}}">{{$owner->name}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -42,13 +45,13 @@
                         </div>
                         <div class="col-md-6">
                             <label for="name">{{ __('Raza') }}</label>
-                            <input type="text" name="raze" id="name" class="form-control @error('name') is-invalid @enderror">
+                            <input type="text" name="raza" id="raza" class="form-control @error('name') is-invalid @enderror">
                         </div>
                     </div>
                     <div class="form-group form-row">
                         <div class="col-md-6">
                             <label for="name">{{ __('Fecha de nacimiento') }}</label>
-                            <input type="date" name="dob" id="name" class="form-control @error('name') is-invalid @enderror">
+                            <input type="date" name="dob" id="dob" class="form-control @error('name') is-invalid @enderror">
                         </div>
                         <div class="col-md-6">
                             <label>Estatus</label>
@@ -63,12 +66,13 @@
                         <button type="submit" class="btn btn-success btn-lg btn-block">{{ __('Crear') }}</button>
                     </div>
                 </form>
-                @else
-                    <strong>Se ha detetectado que no te has logueado -> Por favor inicia sesion</strong>
                 @endif
             </div>
         </div>
     </div>
 </div>
+<script>
+    bootstrapValidate('#raza','regex:^[a-zA-Z ]*$:Ingresa unicamente letras')
+</script>
 @endsection
 

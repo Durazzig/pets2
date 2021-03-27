@@ -31,7 +31,7 @@
                         </div>
                         <div class="col-md-6">
                             <label for="phone">{{ __('Folio') }}</label>
-                            <input type="text" name="folio" class="form-control @error('phone') is-invalid @enderror">
+                            <input type="text" name="folio" id="folio" class="form-control @error('phone') is-invalid @enderror">
                         </div>
                     </div>
                     <div class="form-group form-row">
@@ -47,7 +47,7 @@
                     <div class="form-group form-row">
                         <div class="col-md-6">
                             <label for="name">{{ __('Monto') }}</label>
-                            <input type="text" name="monto" class="form-control @error('name') is-invalid @enderror">
+                            <input type="text" name="monto" id="monto" class="form-control @error('name') is-invalid @enderror">
                         </div>
                         <div class="col-md-6">
                             <label for="name">{{ __('Empleado') }}</label>
@@ -67,5 +67,9 @@
         </div>
     </div>
 </div>
+<script>
+    bootstrapValidate('#folio','alphanum:Ingresa unicamente letras y numeros')
+    bootstrapValidate('#monto','numeric:Ingresa unicamente numeros')
+</script>
 @endsection
 

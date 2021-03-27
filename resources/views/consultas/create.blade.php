@@ -48,11 +48,11 @@
                     <div class="form-group form-row">
                         <div class="col-md-6">
                             <label for="name">{{ __('Peso') }}</label>
-                            <input type="text" name="peso" placeholder="En Kg" id="peso" class="form-control">
+                            <input type="text" name="peso" id="peso" placeholder="En Kg" class="form-control">
                         </div>
                         <div class="col-md-6">
                             <label for="phone">{{ __('Edad') }}</label>
-                            <input type="text" name="edad" placeholder="En años" id="edad" class="form-control">
+                            <input type="text" name="edad" id="edad" placeholder="En años" class="form-control">
                         </div>
                     </div>
                     <div class="form-group form-row">
@@ -69,6 +69,7 @@
                                 <option value="Desparasitación">Desparasitación</option>
                                 <option value="Placa">Placa</option>
                                 <option value="Eutanasia">Eutanasia</option>
+                                <option value="Laboratorio">Eutanasia</option>
                             </select>
                         </div>
                     </div>
@@ -84,6 +85,10 @@
     </div>
 </div>
 <script>
+    bootstrapValidate('#edad','numeric:Ingresa unicamente numeros')
+    bootstrapValidate('#peso','numeric:Ingresa unicamente numeros')
+    bootstrapValidate('#raza','alpha:Ingresa unicamente letras')
+    bootstrapValidate('#propietario','regex:^[a-zA-Z ]*$:Ingresa unicamente letras')
     // $(document).ready(function () {
              
     //          $('#propietario').on('keyup',function() {

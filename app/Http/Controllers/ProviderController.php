@@ -29,7 +29,7 @@ class ProviderController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|max:255',
+            'name' => 'required|max:255|regex:/^[\pL\s\-]+$/u',
             'phone' => 'required',
         ]);
         
@@ -57,6 +57,11 @@ class ProviderController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required|max:255|regex:/^[\pL\s\-]+$/u',
+            'phone' => 'required',
+        ]);
+        
         $provider = $request->except('_token');
         Provider::where('id','=',$id)->update($provider);
         $providers = Provider::paginate(10);

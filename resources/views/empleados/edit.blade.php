@@ -23,11 +23,11 @@
                     <div class="form-group form-row">
                         <div class="col-md-6">
                             <label for="name">{{ __('Nombre') }}</label>
-                            <input type="text" name="empleado_nombre" value="{{$empleado->name}}" id="name" class="form-control">
+                            <input type="text" name="empleado_nombre" value="{{$empleado->name}}" id="nombre_empleado" class="form-control">
                         </div>
                         <div class="col-md-6">
                             <label for="name">{{ __('Nombre de usuario') }}</label>
-                            <input type="text" name="empleado_usuario" value="{{$empleado->username}}" id="name" class="form-control">
+                            <input type="text" name="empleado_usuario" value="{{$empleado->username}}" id="empleado_username" class="form-control">
                         </div>
                     </div>
                     <div class="form-group form-row">
@@ -62,11 +62,11 @@
                     <div class="form-group form-row">
                         <div class="col-md-6">
                             <label for="name">{{ __('Direccion') }}</label>
-                            <input type="text" value="{{$empleado->address}}" name="empleado_direccion" class="form-control">
+                            <input type="text" value="{{$empleado->address}}" name="empleado_direccion" id="empleado_direccion" class="form-control">
                         </div>
                         <div class="col-md-6">
                             <label for="phone">{{ __('Celular') }}</label>
-                            <input type="text" value="{{$empleado->phone}}" name="empleado_celular" class="form-control">
+                            <input type="text" value="{{$empleado->phone}}" name="empleado_celular" id="empleado_celular" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
@@ -78,5 +78,11 @@
         </div>
     </div>
 </div>
+<script>
+    bootstrapValidate('#nombre_empleado','regex:^[a-zA-Z ]*$:Ingresa unicamente letras')
+    bootstrapValidate('#empleado_username','alphanum:Ingresa unicamente letras y numeros')
+    bootstrapValidate('#empleado_direccion','alphanum:Ingresa unicamente letras y numeros')
+    bootstrapValidate('#empleado_celular','numeric:Ingresa unicamente numeros')
+</script>
 @endsection
 

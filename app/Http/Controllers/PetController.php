@@ -18,7 +18,8 @@ class PetController extends Controller
     
     public function create()
     {
-        return view('pets.create');
+        $owners=Owner::all();
+        return view('pets.create',compact('owners'));
     }
 
     
@@ -29,14 +30,14 @@ class PetController extends Controller
         $request->validate([
             'name'  => 'required',
             'species' => 'required',
-            'raze' => 'required',
+            'raza' => 'required',
             'dob' => 'required',
             'status' => 'required',
         ]);
         $pet = new Pet();
         $pet->name = $request->input('name');
         $pet->species = $request->input('species');  
-        $pet->raze = $request->input('raze'); 
+        $pet->raze = $request->input('raza'); 
         $pet->dob = $request->input('dob'); 
         $pet->status = $request->input('status'); 
         if ($request->input('owner') != "No tiene dueño") {
@@ -54,7 +55,7 @@ class PetController extends Controller
         $request->validate([
             'name'  => 'required',
             'species' => 'required',
-            'raze' => 'required',
+            'raze' => 'required|alpha',
             'dob' => 'required',
             'status' => 'required',
         ]);
@@ -100,7 +101,7 @@ class PetController extends Controller
         $request->validate([
             'name'  => 'required',
             'species' => 'required',
-            'raze' => 'required',
+            'raza' => 'required|regex:/^[\pL\s\-]+$/u',
             'dob' => 'required',
             'status' => 'required',
         ]);
@@ -108,7 +109,7 @@ class PetController extends Controller
         $pet = Pet::where('id',$id)->first();
         $pet->name = $request->input('name');
         $pet->species = $request->input('species');  
-        $pet->raze = $request->input('raze'); 
+        $pet->raze = $request->input('raza'); 
         $pet->dob = $request->input('dob'); 
         $pet->status = $request->input('status'); 
         $pet->save();

@@ -36,7 +36,7 @@
                     <div class="form-group form-row">
                         <div class="col-md-6">
                             <label>Raza</label>
-                            <input name="raze" class="form-control" required></input>
+                            <input name="raza" id="raza" class="form-control" required></input>
                         </div>
                         <div class="col-md-6">
                             <label>Fecha de nacimiento</label>
@@ -64,5 +64,8 @@
         </div>
     </div>
 </div>
+<script>
+    bootstrapValidate('#raza','regex:^[a-zA-Z ]*$:Ingresa unicamente letras')
+</script>
 @endsection
 

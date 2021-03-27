@@ -23,11 +23,11 @@
                     <div class="form-group form-row">
                         <div class="col-md-6">
                             <label for="name">{{ __('Nombre') }}</label>
-                            <input type="text" name="nombre_empleado" class="form-control">
+                            <input type="text" name="nombre_empleado" id="nombre_empleado" class="form-control">
                         </div>
                         <div class="col-md-6">
                             <label for="phone">{{ __('Nombre de usuario') }}</label>
-                            <input type="text" name="empleado_username" class="form-control">
+                            <input type="text" name="empleado_username" id="empleado_username" class="form-control">
                         </div>
                     </div>
                     <div class="form-group form-row">
@@ -63,11 +63,11 @@
                     <div class="form-group form-row">
                         <div class="col-md-6">
                             <label for="name">{{ __('Direccion') }}</label>
-                            <input type="text" name="empleado_direccion" class="form-control">
+                            <input type="text" name="empleado_direccion" id="empleado_direccion" class="form-control">
                         </div>
                         <div class="col-md-6">
                             <label for="phone">{{ __('Celular') }}</label>
-                            <input type="text" name="empleado_celular" class="form-control">
+                            <input type="text" name="empleado_celular" id="empleado_celular" class="form-control">
                         </div>
                     </div>
                     <div class="form-group form-row">
@@ -85,5 +85,11 @@
         </div>
     </div>
 </div>
+<script>
+    bootstrapValidate('#nombre_empleado','regex:^[a-zA-Z ]*$:Ingresa unicamente letras')
+    bootstrapValidate('#empleado_username','alphanum:Ingresa unicamente letras y numeros')
+    bootstrapValidate('#empleado_direccion','alphanum:Ingresa unicamente letras y numeros')
+    bootstrapValidate('#empleado_celular','numeric:Ingresa unicamente numeros')
+</script>
 @endsection
 

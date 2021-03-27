@@ -32,7 +32,7 @@
                         </div>
                         <div class="col-md-6">
                             <label for="phone">{{ __('Direccion') }}</label>
-                            <input type="text" name="address" id="phone" class="form-control @error('phone') is-invalid @enderror" required>
+                            <input type="text" name="address" id="address" class="form-control @error('phone') is-invalid @enderror" required>
                             @error('phone')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -43,7 +43,7 @@
                     <div class="form-group form-row">
                         <div class="col-md-12">
                             <label for="name">{{ __('Celular') }}</label>
-                            <input type="tel" name="phone" id="name" class="form-control @error('name') is-invalid @enderror" pattern="{8}" required>
+                            <input type="tel" name="phone" id="phone" class="form-control @error('name') is-invalid @enderror" pattern="{8}" required>
                             @error('name')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -62,5 +62,9 @@
         </div>
     </div>
 </div>
+<script>
+    bootstrapValidate('#phone','numeric:Ingresa unicamente numeros')
+    bootstrapValidate('#name','regex:^[a-zA-Z ]*$:Ingresa unicamente letras')
+</script>
 @endsection
 

@@ -32,7 +32,7 @@
                         </div>
                         <div class="col-md-6">
                             <label for="name">{{ __('Propietario') }}</label>
-                            <input type="text" name="propietario" value="{{$consulta->propietario}}" id="name" class="form-control @error('name') is-invalid @enderror">
+                            <input type="text" name="propietario" value="{{$consulta->propietario}}" id="propietario" class="form-control @error('name') is-invalid @enderror">
                             <input type="text" name="hora_llegada" value="{{$consulta->hora_llegada}}" id="phone" class="form-control" hidden>
                         </div>
                     </div>
@@ -40,22 +40,22 @@
                         <div class="col-md-6">
                             <label for="name">{{ __('Mascota') }}</label>
                             <input type="text" name="hora_atencion" value="{{$consulta->hora_atencion}}" id="name" class="form-control" hidden>
-                            <input type="text" name="mascota" value="{{$consulta->mascota}}" id="phone" class="form-control @error('phone') is-invalid @enderror">
+                            <input type="text" name="mascota" value="{{$consulta->mascota}}" id="mascota" class="form-control @error('phone') is-invalid @enderror">
                         </div>
                         <div class="col-md-6">
                             <label for="name">{{ __('Peso') }}</label>
-                            <input type="text" name="peso" value="{{$consulta->peso}}" id="name" class="form-control @error('name') is-invalid @enderror">
+                            <input type="text" name="peso" value="{{$consulta->peso}}" id="peso" class="form-control @error('name') is-invalid @enderror">
                             <input type="text" name="hora_termino" value="{{$consulta->hora_termino}}" id="phone" class="form-control" hidden>
                         </div>
                     </div>
                     <div class="form-group form-row">
                         <div class="col-md-6">
                             <label for="phone">{{ __('Edad') }}</label>
-                            <input type="text" name="edad" value="{{$consulta->edad}}" id="phone" class="form-control @error('phone') is-invalid @enderror">
+                            <input type="text" name="edad" value="{{$consulta->edad}}" id="edad" class="form-control @error('phone') is-invalid @enderror">
                         </div>
                         <div class="col-md-6">
                             <label for="name">{{ __('Raza') }}</label>
-                            <input type="text" name="raza" value="{{$consulta->raza}}" id="name" class="form-control @error('name') is-invalid @enderror">
+                            <input type="text" name="raza" value="{{$consulta->raza}}" id="raza" class="form-control @error('name') is-invalid @enderror">
                         </div>
                     </div>
                     <div class="form-group form-row">
@@ -78,5 +78,11 @@
         </div>
     </div>
 </div>
+<script>
+    bootstrapValidate('#edad','numeric:Ingresa unicamente numeros')
+    bootstrapValidate('#peso','numeric:Ingresa unicamente numeros')
+    bootstrapValidate('#raza','alpha:Ingresa unicamente letras')
+    bootstrapValidate('#propietario','regex:^[a-zA-Z ]*$:Ingresa unicamente letras')
+</script>
 @endsection
 

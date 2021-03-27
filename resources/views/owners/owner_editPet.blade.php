@@ -37,7 +37,7 @@
                     <div class="form-group form-row">
                         <div class="col-md-6">
                             <label for="name">{{ __('Raza') }}</label>
-                            <input type="text" name="raze" value="{{$pet->raze}}" id="raza" class="form-control @error('name') is-invalid @enderror">
+                            <input type="text" name="raza" value="{{$pet->raze}}" id="raza" class="form-control @error('name') is-invalid @enderror">
                         </div>
                         <div class="col-md-6">
                             <label for="phone">{{ __('Fecha de nacimiento') }}</label>
@@ -67,9 +67,6 @@
     </div>
 </div>
 <script>
-
-$( document ).ready(function() {
-
-});
+    bootstrapValidate('#raza','regex:^[a-zA-Z ]*$:Ingresa unicamente letras')
 </script>
 @endsection

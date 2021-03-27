@@ -20,6 +20,13 @@ class EmpleadoController extends Controller
     }
     public function store(Request $request)
     {
+        $request->validate([
+            'nombre_empleado' => 'required|regex:/^[\pL\s\-]+$/u',
+            'empleado_username' => 'required|alpha',
+            'empleado_area' => 'required',
+            'empleado_contraseña' => 'required|alpha_num',
+        ]);
+
         $role = Role::where('name', $request->input('empleado_rol'))->first();   
         $user = new User();
         $user->name = $request->input('nombre_empleado');
@@ -32,7 +39,8 @@ class EmpleadoController extends Controller
         $user->roles()->attach($role);
         $empleados = User::paginate(10);
 
-        return view('empleados.index', compact('empleados'));
+        //return view('empleados.index', compact('empleados'));
+        return redirect()->route('empleados.index',compact('empleados'));
     }
     public function edit($id)
     {
@@ -41,6 +49,13 @@ class EmpleadoController extends Controller
     }
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'nombre_empleado' => 'required|regex:/^[\pL\s\-]+$/u',
+            'empleado_username' => 'required|alpha',
+            'empleado_area' => 'required',
+            'empleado_contraseña' => 'required|alpha_num',
+        ]);
+        
         $role = Role::where('name', $request->input('empleado_rol'))->first();
         $empleado = User::find($id);
         $empleado->name = $request->input('empleado_nombre');

@@ -20,6 +20,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://cdn.rawgit.com/PascaleBeier/bootstrap-validate/v2.2.0/dist/bootstrap-validate.js" ></script>
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
@@ -68,6 +69,9 @@
                               <a class="dropdown-item" href="{{route('empleados.index')}}">Empleados</a>
                               <a class="dropdown-item" href="{{route('permisos.index')}}">Permisos</a>
                             </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{{route('home')}}">Lista de espera</a>
                         </li>
                     </ul>
                     @endif

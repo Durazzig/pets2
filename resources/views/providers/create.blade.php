@@ -24,32 +24,24 @@
                         <div class="col-md-6">
                             <label for="name">{{ __('Nombre') }}</label>
                             <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror">
-                            @error('name')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
                         </div>
                         <div class="col-md-6">
                             <label for="phone">{{ __('Celular') }}</label>
                             <input type="tel" name="phone" id="phone" class="form-control @error('phone') is-invalid @enderror" required>
-                            @error('phone')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
                         </div>
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-success btn-lg btn-block">{{ __('Crear') }}</button>
                     </div>
                 </form>
-                @else
-                    <strong>Se ha detetectado que no te has logueado -> Por favor inicia sesion</strong>
                 @endif
             </div>
         </div>
     </div>
 </div>
+<script>
+    bootstrapValidate('#name','alpha:Ingresa unicamente caracteres alfabeticos')
+    bootstrapValidate('#phone','numeric:Ingresa unicamente numeros')
+</script>
 @endsection
 

@@ -25,9 +25,9 @@ class OwnerController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'  => 'required',
+            'name'  => 'required|regex:/^[\pL\s\-]+$/u',
             'address' => 'required',
-            'phone' => 'required',
+            'phone' => 'required|numeric',
         ]);
 
         Owner::create([
@@ -65,7 +65,7 @@ class OwnerController extends Controller
     {
         //
         $request->validate([
-            'name' => 'required',
+            'name' => 'required|regex:/^[\pL\s\-]+$/u',
             'address' => 'required',
             'phone' => 'required|numeric',
         ]);

@@ -27,7 +27,7 @@
                         </div>
                         <div class="col-md-6">
                             <label for="phone">{{ __('Folio') }}</label>
-                            <input type="text" name="folio" value="{{$bills->folio}}" id="phone" class="form-control @error('phone') is-invalid @enderror">
+                            <input type="text" name="folio" id="folio" value="{{$bills->folio}}" id="phone" class="form-control @error('phone') is-invalid @enderror">
                         </div>
                     </div>
                     <div class="form-group form-row">
@@ -43,29 +43,25 @@
                     <div class="form-group form-row">
                         <div class="col-md-6">
                             <label for="name">{{ __('Monto') }}</label>
-                            <input type="text" name="monto" value="{{$bills->monto}}" id="name" class="form-control @error('name') is-invalid @enderror">
+                            <input type="text" name="monto" id="monto" value="{{$bills->monto}}" id="name" class="form-control @error('name') is-invalid @enderror">
                         </div>
                         <div class="col-md-6">
                             <label for="phone">{{ __('Empleado') }}</label>
-                            <input type="text" name="empleado" value="{{$bills->empleado}}" id="phone" class="form-control @error('phone') is-invalid @enderror">
-                        </div>
-                    </div>
-                    <div class="form-group form-row">
-                        <div class="col-md-6">
-                            <label for="phone">{{ __('Imagen de factura') }}</label>
-                            <input type="file" name="imagen"/>
+                            <input type="text" name="empleado" value="{{$bills->empleados->name}}" id="phone" class="form-control @error('phone') is-invalid @enderror">
                         </div>
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-success btn-lg btn-block">{{ __('Actualizar') }}</button>
                     </div>
                 </form>
-                @else
-                    <strong>Se ha detetectado que no te has logueado -> Por favor inicia sesion</strong>
                 @endif
             </div>
         </div>
     </div>
 </div>
+<script>
+    bootstrapValidate('#folio','alphanum:Ingresa unicamente letras y numeros')
+    bootstrapValidate('#monto','numeric:Ingresa unicamente numeros')
+</script>
 @endsection
 
