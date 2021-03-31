@@ -105,7 +105,7 @@
             document.getElementById("motivo").disabled=true;
         }
         else{
-            document.getElementById("motivo").enabled=true;
+            document.getElementById("motivo").disabled=false;
         }
     }
 </script>
