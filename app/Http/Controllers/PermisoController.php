@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use DateInterval;
 use DateTime;
 use Carbon\Carbon;
+use App\Role;
+use Illuminate\Support\Facades\Auth;
 
 class PermisoController extends Controller
 {
@@ -19,7 +21,7 @@ class PermisoController extends Controller
     public function index()
     {
         
-        $permisos = Permiso::whereDate('fecha_permiso', today())->paginate(10);
+        $permisos = Permiso::whereDate('fecha_permiso', today())->orWhere('aprobado','nochecked')->paginate(10);
         $empleados = User::all();
         return view('permisos.index', compact('permisos'))->with(compact('empleados'));
     }
@@ -130,21 +132,43 @@ class PermisoController extends Controller
             if($selectValue != "todos")
             {
                 $empleado = $request -> input('empleado_id');
+                $filtro = $request -> input('filtro');
                 $empleados = User::all();
-                $permisos = Permiso::where('empleado',$empleado)->whereBetween('fecha_permiso',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->paginate(10);
+                if ($filtro != "todos") {
+                    $permisos = Permiso::where('empleado',$empleado)->whereBetween('fecha_permiso',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('aprobado', $filtro)->paginate(10);
+                } else {
+                    $permisos = Permiso::where('empleado',$empleado)->whereBetween('fecha_permiso',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->paginate(10);
+                }
                 $permisos->appends($request->all());
-                return redirect()->route('permisos.index', compact('permisos'))->with(compact('empleados'));
+                return view('permisos.index',compact('empleados'))->with(compact('permisos'));
             }
             else
             {
                 $empleados = User::all();
-                $permisos = Permiso::whereBetween('fecha_permiso',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->paginate(10);
+                $filtro2 = $request -> input('filtro');
+                if ($filtro2 != "todos") {
+                    //dd($filtro2);
+                    $permisos = Permiso::whereBetween('fecha_permiso',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->where('aprobado',$filtro2)->paginate(10);
+                } else {
+                    //dd($filtro2);
+                    $permisos = Permiso::whereBetween('fecha_permiso',[new Carbon($fecha_inicial), new Carbon($fecha_final)])->paginate(10);
+                }
+                
                 $permisos->appends($request->all());
                 return view('permisos.index',compact('empleados'))->with(compact('permisos'));
             }
             break;
 
         case 'imprimir':
+                $role_admin = Role::where('name', 'admin')->first(); 
+                $userId = Auth::user()->id;
+                $user = User::where('id',$userId)->get();
+                foreach($user[0]->roles as $role){
+                    if($role->name == $role_admin->name)
+                    {}else{
+                        return view('errors.not_authorized_action');
+                    }
+                }
                 $fechaT = Carbon::now()->toDateString();
                 $fecha = Carbon::parse($fechaT);
                 $date = $fecha->locale();
@@ -192,6 +216,7 @@ class PermisoController extends Controller
                 $saltoline = "__________________________________________________________________";
                 $infoG1 = "No. de Permisos Solicitados: ".$noPermisosTotal;
                 
+                //$newSection->addImage('https://i.postimg.cc/JnkxkFTG/logopets-1.jpg');
                 $newSection->addText($fech, $subtitule);
                 $newSection->addText($partHead, $fontStyle);
                 $newSection->addText($partFech, $subtitule);

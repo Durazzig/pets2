@@ -194,6 +194,16 @@ class ConsultaController extends Controller
             break;
 
         case 'imprimir':
+            $role_admin = Role::where('name', 'admin')->first();  
+            $userId = Auth::user()->id;
+            $user = User::where('id',$userId)->get();
+            foreach($user[0]->roles as $role){
+                if($role->name == $role_admin->name)
+                {}else{
+                    return view('errors.not_authorized_action');
+                }
+            }
+
             if($selectValue == 'todos')
             {
                 $fechaT = Carbon::now()->toDateString();
@@ -422,6 +432,7 @@ class ConsultaController extends Controller
                 $text->setSize(11);
 
                 $parts = array();
+                //dd($lista);
                 for($i=0; $i<count($lista); $i+=5){
                     $parts[] = "Nombre del médico: " . $lista[$i];
                     $parts[] = "Servicios Generales atendidos: ".$lista[$i+1];
@@ -436,12 +447,13 @@ class ConsultaController extends Controller
                 $fech = "                                                                     Tuxtla Gutiérrez, Chis. ".$fecha->monthName." ".$fecha->day.", ".$fecha->year; 
                 $infoG1 = "Total de consultas en este periodo: ".$noConsultas;
                 $infoG2 = "Total de servicios en general brindados: ".$noServicesTotal;
-                $infoG3 = "Promedio de consultas atendidas por día: ".$promConPD;
-                $infoG4 = "Promedio de servicios atendidos por día: ".$promServPD;
+                $infoG3 = "Promedio de consultas atendidas por día: ".round($promConPD);
+                $infoG4 = "Promedio de servicios atendidos por día: ".round($promServPD);
                 $infoG5 = "Servicio más solicitado: ".$listaServices[$mayor];
                 $infoG6 = "Servicio menos solicitado: ".$listaServices[$menor];
                 $saltoline = "____________________________________________________________________";
 
+                //$newSection->addImage('https://i.postimg.cc/JnkxkFTG/logopets-1.jpg');
                 $newSection->addText($fech, $subtitule);
                 $newSection->addText($partHead, $fontStyle);
                 $newSection->addText($partFech, $subtitule);
@@ -612,8 +624,8 @@ class ConsultaController extends Controller
                 $infoG3 = "No. de Servicios Generales: ".$noServGenerales;
                 $infoG4 = "Máximo servicio solicitado: ".$listaServices[$mayor];
                 $infoG5 = "Mínimo servicio solicitado: ".$listaServices[$menor];
-                $infoG6 = "Promedio de Consultas por día: ".$promConPD;
-                $infoG7 = "Promedio de Servicios atendidos por día: ".$promServPD;
+                $infoG6 = "Promedio de Consultas por día: ".round($promConPD);
+                $infoG7 = "Promedio de Servicios atendidos por día: ".round($promServPD);
                 $newSection->addText($fech, $subtitule);
                 $newSection->addText($partHead, $fontStyle);
                 $newSection->addText($partFech, $subtitule);

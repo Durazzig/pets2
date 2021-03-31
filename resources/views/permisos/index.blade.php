@@ -40,6 +40,13 @@
                             <div class="form-group col-md-4">
                                 <button type="submit" name="action" value="imprimir" class="btn btn-success btn-md btn-block">{{ __('Imprimir') }}</button>
                             </div>
+                            <div class="col-md-3">
+                                <select class="custom-select" name="filtro" id="" required>
+                                    <option value="Checked">Aprobados</option>
+                                    <option value="nochecked">Pendientes</option>
+                                    <option value="todos">Todos</option>
+                                </select>
+                            </div>
                         </form>
                     </div>
             </div>
@@ -53,6 +60,7 @@
                         <th scope="col">#</th>
                         <th scope="col">{{ __('Empleado') }}</th>
                         <th scope="col">{{ __('Area') }}</th>
+                        <th scope="col">{{ __('Fecha de solicitud') }}</th>
                         <th scope="col">{{ __('Fecha de permiso') }}</th>
                         <th scope="col">{{ __('Turno') }}</th>
                         <th scope="col">{{ __('Cubre') }}</th>
@@ -69,6 +77,7 @@
                         <td>{{ $permiso->id }}</td>
                         <td>{{ $permiso->empleados->name }}</td>
                         <td>{{ $permiso->area }}</td>
+                        <td>{{ $permiso->created_at }}</td>
                         <td>{{ $permiso->fecha_permiso }}</td>
                         <td>{{ $permiso->turno }}</td>
                         <td>{{ $permiso->sustitutos->name }}</td>

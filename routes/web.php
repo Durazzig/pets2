@@ -75,6 +75,7 @@ Route::any('/empleados/edit/{id}', 'EmpleadoController@edit')->name('empleados.e
 Route::any('/empleados/get', 'EmpleadoController@getEmpleados')->name('empleados.getEmpleados')->middleware('auth','role:admin');
 Route::any('/empleados/update{id}', 'EmpleadoController@update')->name('empleados.update')->middleware('auth','role:admin');
 Route::delete('/empleados/delete/{id}', 'EmpleadoController@destroy')->name('empleados.delete')->middleware('auth','role:admin');
+Route::any('/empleados/update-password/{id}', 'EmpleadoController@updatePass')->name('empleados.updatePassword')->middleware('auth','role:admin');
 
 Route::get('/createWord/{id}', ['as'=>'createWord', 'uses'=>'document@createWordDoc'])->middleware('auth');
 

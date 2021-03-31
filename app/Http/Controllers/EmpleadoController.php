@@ -6,6 +6,7 @@ use App\empleado;
 use App\User;
 use App\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class EmpleadoController extends Controller
 {
@@ -113,5 +114,21 @@ class EmpleadoController extends Controller
            
             return $output;
         }
+    }
+
+    public function updatePass(Request $request, $id){
+        $user = User::find($id);
+        $request->validate([
+            'password' => ['required', 'string', 'min:4'],
+            'password-confirm' => ['required', 'string', 'min:4']
+        ]);
+
+        if ($request->input('password') == $request->input('password-confirm')) {
+            $user->password =  Hash::make($request->password);
+            $user->save();
+            return redirect()->route('empleados.index')->with('message', 'Contrasena actualizada correctamente');
+        }
+
+        
     }
 }

@@ -7,11 +7,11 @@ use App\Permiso;
 use App\User;
 use Carbon\Carbon;
 
+
 class document extends Controller
 {
     //
     public function createWordDoc($id){
-
         $permisos = Permiso::find($id);
         $empleado = User::where('id',$permisos->empleado)->first();
         $sustituto = User::where('id',$permisos->sustituto)->first();
@@ -81,9 +81,9 @@ class document extends Controller
             $part12 = "                                                                                                Lic. Ana Laura Mancilla Vega";
             $part13 = "                                                                                                                    Gerente General";
 
-
+            //  $newSection->addImage('https://i.postimg.cc/JnkxkFTG/logopets-1.jpg');
             $newSection->addText($fech, $text);
-            $newSection->addText($salto, $text);
+            //$newSection->addText($salto, $text);
 
             if($permisos->tipo_permiso == "Permiso")
             {
@@ -92,10 +92,10 @@ class document extends Controller
                 $newSection->addText($part102, $fontStyle);
             }
 
-            $newSection->addText($salto, $text);
+            //$newSection->addText($salto, $text);
             $newSection->addText($part2, $subtitule);
             $newSection->addText($part3, $subtitule);
-            $newSection->addText($salto, $text);
+            //$newSection->addText($salto, $text);
             if((intval($fechaAux->day)-intval($fechaAux2->day))==0){
                 if($permisos->tipo_permiso == "Permiso")
                 {
@@ -113,7 +113,7 @@ class document extends Controller
                     $newSection->addText($part422, $text);
                 }
             }
-            $newSection->addText($salto, $text);
+            //$newSection->addText($salto, $text);
             $newSection->addText($part5, $text);
             $newSection->addText($firma, $text);  
             $newSection->addText($part6, $text);
@@ -160,6 +160,7 @@ class document extends Controller
             $part12 = "                                                                                                Lic. Ana Laura Mancilla Vega";
             $part13 = "                                                                                                                    Gerente General";
 
+            $newSection->addImage('https://i.postimg.cc/JnkxkFTG/logopets-1.jpg');
             $newSection->addText($fech, $text);
             $newSection->addText($salto, $text);
 

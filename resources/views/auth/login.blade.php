@@ -17,7 +17,7 @@
                             </label>
                         
                             <div class="col-md-6">
-                                <input id="login" type="text"
+                                <input autocomplete="off" id="login" type="text"
                                     class="form-control{{ $errors->has('username') || $errors->has('email') ? ' is-invalid' : '' }}"
                                     name="login" value="{{ old('username') ?: old('email') }}" required autofocus>
                         

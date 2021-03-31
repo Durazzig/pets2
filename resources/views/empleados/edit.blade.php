@@ -7,7 +7,7 @@
             <div class="card-header bg-primary text-white">
                 <div class="d-flex justify-content-between">
                     <div>
-                        <h3 class="mb-0">{{ __('Actualizar Empleado') }}</h3>
+                        <h3 class="mb-0">{{ __('Actualizar Datos') }}</h3>
                     </div>
                     <div>
                         <a href="{{ route('empleados.index') }}" class="btn btn-danger font-weight-bold">
@@ -67,6 +67,33 @@
                         <div class="col-md-6">
                             <label for="phone">{{ __('Celular') }}</label>
                             <input type="text" value="{{$empleado->phone}}" name="empleado_celular" id="empleado_celular" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success btn-lg btn-block">{{ __('Actualizar') }}</button>
+                    </div>
+                </form>
+                @endif
+            </div>
+            <div class="card-header bg-primary text-white">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h3 class="mb-0">{{ __('Actualizar Contraseña') }}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                @if(Auth::user())
+                <form action="{{ route('empleados.updatePassword',$empleado->id) }}" method="POST">
+                    @csrf
+                    <div class="form-group form-row">
+                        <div class="col-md-6">
+                            <label for="name">{{ __('Nueva Contraseña') }}</label>
+                            <input autocomplete="off" type="text" name="password" value="" id="nombre_empleado" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="name">{{ __('Confirmar contraseña') }}</label>
+                            <input autocomplete="off" type="text" name="password-confirm" value="" id="empleado_username" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
